@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Lab: functional programming basics</title>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://code.jquery.com/qunit/qunit-1.20.0.css">
+</head>
+
+<body>
+  <h2>Write a logic-less template system with data binding!</h2> The goal is to have a <code>function render(templateElement, data)</code> which can be used as follows:
+  <pre>
+  &lt;ul id=&quot;template-videolist&quot;&gt;
+    &lt;li data-viewlist=&quot;videos&quot;&gt;
+      &lt;div&gt;Title: &lt;span data-view=&quot;title&quot;&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div&gt;Year: &lt;span data-view=&quot;year&quot;&gt;&lt;/span&gt;&lt;/div&gt;
+      &lt;div&gt;Actors: &lt;span data-viewlist=&quot;actors&quot;&gt;&lt;span data-view=&quot;name&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;/div&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+
+  var data = {
+    videos: [{
+      id: 1,
+      title: "Armageddon",
+      year: "1998",
+      actors: [{name: "Bruce Willis"}, {name:"Billy Bob Thornton"}, {name: "Ben Affleck"}, {name: "Liv Tyler"}];
+    },
+    {
+      id: 281,
+      title: "The Theory of Everything",
+      year: "2014",
+      actors: [{name: "Eddie Redmayne"}, {name: "Felicity Jones"}, {name: "Emily Watson"}]
+    }];
+  }
+  
+  var rendered = render(document.getElementById("template-videolist"), data);
+  document.body.appendChild(rendered);
+  </pre>
+
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+  <script src="https://code.jquery.com/qunit/qunit-1.20.0.js"></script>
+  <script src="templates.js"></script>
+  <script src="tests.js"></script>
+
+  <section id="templates" style="display: none">
+    <ul id="template-videolist">
+      <li data-viewlist="videos">
+        <div>Title: <span data-view="title"></span>
+        </div>
+        <div>Year: <span data-view="year"></span>
+        </div>
+        <div>Actors: <span data-viewlist="actors"><span data-view="name"></span></span>
+        </div>
+      </li>
+    </ul>
+  </section>
+</body>
+</html>

@@ -5,6 +5,7 @@
   "undef": true,
   "unused": true,
   "predef": ["fetch",
-             "remark"
+             "remark",
+             "QUnit"
              ]
 }
