@@ -1,0 +1,7 @@
+{
+  "name": "js_trainging",
+  "version": "0.1.0",
+  "dependencies": {
+    "whatwg-fetch": "^0.10.1"
+  }
+}
