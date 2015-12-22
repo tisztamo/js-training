@@ -36,12 +36,15 @@
   var rendered = render(document.getElementById("template-videolist"), data);
   document.body.appendChild(rendered);
   </pre>
-
+  Output:
+  <div id="output"></div>
   <div id="qunit"></div>
   <div id="qunit-fixture"></div>
   <script src="https://code.jquery.com/qunit/qunit-1.20.0.js"></script>
+  <script src="polyfills/array-from.js"></script>
   <script src="templates.js"></script>
   <script src="tests.js"></script>
+
 
   <section id="templates" style="display: none">
     <ul id="template-videolist">
@@ -50,10 +53,43 @@
         </div>
         <div>Year: <span data-view="year"></span>
         </div>
-        <div>Actors: <span data-viewlist="actors"><span data-view="name"></span></span>
-        </div>
+        <div>Actors: <span data-viewlist="actors"><span data-view="name"></span>; </span></div>
       </li>
     </ul>
   </section>
+  <script>
+    var data = {
+      videos: [{
+          id: 1,
+          title: "Armageddon",
+          year: "1998",
+          actors: [{
+            name: "Bruce Willis"
+          }, {
+            name: "Billy Bob Thornton"
+          }, {
+            name: "Ben Affleck"
+          }, {
+            name: "Liv Tyler"
+          }]
+    },
+        {
+          id: 281,
+          title: "The Theory of Everything",
+          year: "2014",
+          actors: [{
+            name: "Eddie Redmayne"
+          }, {
+            name: "Felicity Jones"
+          }, {
+            name: "Emily Watson"
+          }]
+    }]
+    };
+
+    var rendered = templates.render(document.getElementById("template-videolist"), data);
+    document.getElementById("output").appendChild(rendered);
+  </script>
 </body>
+
 </html>
