@@ -8,7 +8,7 @@
 </head>
 
 <body>
-  <h2>Write a logic-less template system with data binding!</h2> The goal is to have a <code>function render(templateElement, data)</code> which can be used as follows:
+  <h2>Write a logic-less template system with data binding!</h2> The goal is to have a <code>function templates.render(templateElement, data)</code> which can be used as follows:
   <pre>
   &lt;ul id=&quot;template-videolist&quot;&gt;
     &lt;li data-viewlist=&quot;videos&quot;&gt;
@@ -33,11 +33,13 @@
     }];
   }
   
-  var rendered = render(document.getElementById("template-videolist"), data);
+  var rendered = templates.render(document.getElementById("template-videolist"), data);
   document.body.appendChild(rendered);
   </pre>
   Output:
   <div id="output"></div>
+  <h3>Implement it without using any cycle!</h3>
+  
   <div id="qunit"></div>
   <div id="qunit-fixture"></div>
   <script src="https://code.jquery.com/qunit/qunit-1.20.0.js"></script>
