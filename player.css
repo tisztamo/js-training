@@ -35,3 +35,10 @@ h3 {
 .attribution a {
   color: darkgray;
 }
+
+.license {
+  position: fixed;
+  z-index: 60000;
+  bottom: 0;
+  left: 3px;
+}
