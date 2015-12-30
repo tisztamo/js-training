@@ -98,3 +98,47 @@ var typedVideos = videos.map(function (video) {
 var twentiestCenturyVideos = videos.filter(function (video) {
   return Number(video.year) <= 2000;
 });
+
+function createFormatter2(template) {
+  return function formatter() {
+    var formatted = template;
+    Array.from(arguments).forEach(function (arg, idx) {
+      formatted = formatted.replace("%" + (idx + 1), arg);
+    });
+    return formatted;
+  };
+}
+
+function createFormatter3(template) {
+  return function formatter() {
+    return Array.from(arguments).reduce(function (formatted, arg, idx) {
+      return formatted.replace("%" + (idx + 1), arg);
+    }, template);
+  };
+}
+
+var ONE_HP_IN_KW = 0.745699872;
+var aCar = {
+  name: "Trabant 601",
+  maxSpeed: 100,
+  fuelConsumption: 7,
+  tank: 24,
+  power: 26,
+  weight: 600,
+  getMaxRange: function () {
+    return this.tank / this.fuelConsumption * 100;
+  },
+  get horsePower() {
+    return this.power / ONE_HP_IN_KW;
+  },
+  set horsePower(hp) {
+    this.power = hp * ONE_HP_IN_KW;
+  }
+};
+
+var porsche = Object.create(aCar);
+porsche.name = "Porsche 911 GT3";
+porsche.power = 368;
+porsche.weight = 1360;
+porsche.fuelConsumption = 28;
+porsche.tank = 120;

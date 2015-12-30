@@ -221,6 +221,136 @@ var twentiestCenturyVideos = videos.filter(function (video) {
 
 ---
 
+#Array.from()
+
+`arguments` is not a real Array.
+
+```
+function createFormatter(template) {
+  return function formatter() {
+    var i = arguments.length;
+    var formatted = template;
+    while (i >= 0) {
+      formatted = formatted.replace("%" + (i + 1), arguments[i]);
+      i--;
+    }
+    return formatted;
+  };
+}
+
+function createFormatter2(template) {
+  return function formatter() {
+    var formatted = template;
+    Array.from(arguments).forEach(function (arg, idx) {
+      formatted = formatted.replace("%" + (idx + 1), arg);
+    });
+    return formatted;
+  };
+}
+```
+---
+
+#Array.reduce()
+
+`arr.reduce(callback[, initialValue])`
+
+Parameters
+
+`callback`: Accumulator function to execute on each value in the array, taking four arguments:
+
+- `previousValue`:
+      The value previously returned in the last invocation of the callback, or initialValue, if supplied.
+- `currentValue`:
+    The current element being processed in the array.
+- `currentIndex`:
+    The index of the current element being processed in the array.
+- `array`:
+    The array reduce was called upon.
+
+```
+function createFormatter3(template) {
+  return function formatter() {
+    return Array.from(arguments).reduce(function (formatted, arg, idx) {
+      return formatted.replace("%" + (idx + 1), arg);
+    }, template);
+  };
+}
+```
+
+---
+
+# Typed arrays I.: architecture
+
+![typed arrays](img/typed_arrays.png "Typed Arrays")
+
+
+---
+
+# Typed arrays II.: example
+
+```
+MandelWorker.prototype.calculate = function () {
+  var buf = new ArrayBuffer(4 * this.width * this.height);
+  var pix = new Uint8ClampedArray(buf);
+  for (var ix = 0; ix < this.width; ++ix)
+    for (var iy = 0; iy < this.height; ++iy) {
+      var ppos = 4 * (this.width * iy + ix);
+      ...
+      pix[ppos] = 255;
+      pix[ppos + 1] = 255 * (c - 1);
+      pix[ppos + 2] = 0;
+      ...
+    };
+  return pix;
+};
+```
+
+---
+class: center, middle
+
+# 3. Objects & OOP
+
+---
+
+# Object Initialization
+
+```
+var ONE_HP_IN_KW = 0.745699872;
+
+var aCar = {
+  name: "Trabant 601",
+  maxSpeed: 100,
+  fuelConsumption: 7,
+  tank: 24,
+  power: 26,
+  weight: 600,
+  getMaxRange: function () {
+    return this.tank / this.fuelConsumption * 100;
+  },
+  get horsePower() {
+    return this.power / ONE_HP_IN_KW;
+  },
+  set horsePower(hp) {
+    this.power = hp * ONE_HP_IN_KW;
+  }
+};
+```
+---
+
+# Prototypes, Object.create()
+
+```
+var porsche = Object.create(aCar);
+porsche.name = "Porsche 911 GT3";
+porsche.power = 368;
+porsche.weight = 1360;
+porsche.fuelConsumption = 28;
+porsche.tank = 120;
+```
+![porsche](img/porsche.png "Porsche")
+
+---
+
 ```
 ```
 ---
