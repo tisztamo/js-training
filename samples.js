@@ -142,3 +142,128 @@ porsche.power = 368;
 porsche.weight = 1360;
 porsche.fuelConsumption = 28;
 porsche.tank = 120;
+
+function Car(name, maxSpeed, tank, fuelConsumption) {
+  this.name = name;
+  this.maxSpeed = maxSpeed;
+  this.tank = tank;
+  this.fuelConsumption = fuelConsumption;
+}
+
+var subaru = new Car("Subaru WRX STI", 255);
+
+Car.prototype.getMaxRange = function () {
+  return this.tank / this.fuelConsumption * 100;
+};
+
+var lancer = new Car("Mitsubishi Lancer Evolution X", 260, 55, 14);
+
+function Ambulance() {
+  Car.call(this, "Ambulance Car", 100, 70, 12);
+}
+
+Ambulance.prototype = new Car();
+Ambulance.prototype.constructor = Ambulance;
+
+var ambulance = new Ambulance();
+
+
+function Vector(x, y) {
+  this.x = x;
+  this.y = y;
+}
+
+Vector.createFromPolar = function (angle, length) {
+  return new Vector(length * Math.cos(angle), length * Math.sin(angle));
+};
+
+Vector.prototype.add = function (another) {
+  this.x += another.x;
+  this.y += another.y;
+  return this;
+};
+
+Vector.prototype.multiply = function (scalar) {
+  this.x *= scalar;
+  this.y *= scalar;
+  return this;
+};
+
+Vector.prototype.distanceFrom = function (another) {
+  var xDiff = another.x - this.x,
+    yDiff = another.y - this.y;
+  return Math.sqrt(Math.pow(xDiff, 2) + Math.pow(yDiff, 2));
+};
+
+Vector.prototype.length = function () {
+  return this.distanceFrom(Vector.zero);
+};
+
+Vector.prototype.substractToNew = function (another) {
+  return new Vector(this.x - another.x, this.y - another.y);
+};
+
+Vector.prototype.toUnitVector = function () {
+  return this.multiply(1 / this.length());
+};
+
+Vector.prototype.toString = function () {
+  return "(" + this.x + ", " + this.y + ")";
+};
+
+Vector.prototype.clone = function () {
+  return new Vector(this.x, this.y);
+};
+
+Vector.zero = new Vector(0, 0);
+
+function SpaceObject(pos, v, mass) {
+  this.pos = pos;
+  this.v = v;
+  this.mass = mass || 1;
+  this.stepForce = new Vector(0, 0);
+  this.id = SpaceObject.getNextId();
+}
+
+SpaceObject.G = 50;
+
+SpaceObject.prototype.permeable = false;
+
+SpaceObject.nextId = 1;
+
+SpaceObject.getNextId = function () {
+  return "SO" + (SpaceObject.nextId++);
+};
+
+SpaceObject.prototype.oneStep = function () {
+  this.v.add(this.stepForce.multiply(1 / this.mass));
+  this.pos.add(this.v);
+  this.heading += this.angularSpeed;
+  this.stepForce = new Vector(0, 0);
+};
+
+function Detonation(pos, v) {
+  SpaceObject.call(this, pos, v, -0.15);
+  this.permeable = true;
+  this.lifeSteps = 100;
+}
+
+Detonation.prototype = Object.create(SpaceObject.prototype);
+Detonation.prototype.constructor = Detonation;
+
+Detonation.prototype.oneStep = function () {
+  this.stepForce = Vector.zero.clone();
+  SpaceObject.prototype.oneStep.call(this);
+  if (--this.lifeSteps <= 0) {
+    this.die();
+  }
+};
+
+function ThisTest(id) {
+  console.log("ThisTest: " + JSON.stringify(this));
+  this.id = id;
+}
+
+ThisTest.prototype.test = function (arg1, arg2) {
+  console.log("test: " + JSON.stringify(this) + " arg1: " + arg1 + ", arg2: " + arg2);
+};

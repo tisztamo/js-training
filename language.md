@@ -351,13 +351,151 @@ porsche.tank = 120;
 
 ---
 
+# Contructor function, new operator
+
+```
+function Car(name, maxSpeed, tank, fuelConsumption) {
+  this.name = name;
+  this.maxSpeed = maxSpeed;
+  this.tank = tank;
+  this.fuelConsumption = fuelConsumption;
+}
+
+var subaru = new Car("Subaru WRX STI", 255);
+```
+
+![subaru](img/subaru.png "subaru")
+
+---
+
+# Constructor with prototype
+
+```
+Car.prototype.getMaxRange = function () {
+  return this.tank / this.fuelConsumption * 100;
+}
+
+var lancer = new Car("Mitsubishi Lancer Evolution X", 260, 55, 14);
+```
+
+![lancer](img/lancer.png "lancer")
+
+---
+
+# Inheritance using a constructor
+
+```
+function Ambulance() {
+  Car.call(this, "Ambulance Car", 100, 70, 12);
+}
+
+Ambulance.prototype = new Car();
+Ambulance.prototype.constructor = Ambulance;
+
+var ambulance = new Ambulance();
+```
+
+![ambulance](img/ambulance.png "ambulance")
+
+---
+
+# A full example I/II.
+
+```
+function SpaceObject(pos, v, mass) {
+  this.pos = pos;
+  this.v = v;
+  this.mass = mass || 1;
+  this.stepForce = new Vector(0, 0);
+  this.id = SpaceObject.getNextId();
+}
+
+/** Gravitational constant */
+SpaceObject.G = 50;
+
+/** Permeable objects are not involved in collision-like events */
+SpaceObject.prototype.permeable = false;
+
+/* @private */
+SpaceObject.nextId = 1;
+
+/* @private */
+SpaceObject.getNextId = function () {
+  return "SO" + (SpaceObject.nextId++);
+};
+```
+
+---
+
+# A full example II/II.
+
+```
+SpaceObject.prototype.oneStep = function () {
+  this.v.add(this.stepForce.multiply(1 / this.mass));
+  this.pos.add(this.v);
+  this.heading += this.angularSpeed;
+  this.stepForce = new Vector(0, 0);
+};
 ```
 ```
+function Detonation(pos, v) {
+  SpaceObject.call(this, pos, v, -0.15);
+  this.permeable = true;
+  this.lifeSteps = 100;
+}
+
+Detonation.prototype = Object.create(SpaceObject.prototype);
+Detonation.prototype.constructor = Detonation;
+
+Detonation.prototype.oneStep = function () {
+  this.stepForce = Vector.zero.clone();
+  SpaceObject.prototype.oneStep.call(this);
+  if (--this.lifeSteps <= 0) {
+    this.die();
+  }
+};
+```
+
+---
+# this I.
+
+```
+function ThisTest(id) {
+  console.log("ThisTest: " + JSON.stringify(this));
+  this.id = id;
+}
+
+ThisTest.prototype.test = function(arg1, arg2) {
+  console.log("test: " + JSON.stringify(this) + " arg1: " +
+                         arg1 + ", arg2: " + arg2);  
+};
+```
+
+---
+# this II.
+
+![this](img/this.png "this")
+
+---
+
+# call, bind, apply
+
+```
+
+```
+
 ---
 
 ```
 ```
+
 ---
 
 ```
 ```
+
+---
+
+```
+```
+
