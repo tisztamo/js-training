@@ -480,14 +480,14 @@ ThisTest.prototype.test = function(arg1, arg2) {
 
 # call, bind, apply
 
-```
-
-```
+![bind](img/bind.png "bind")
 
 ---
 
-```
-```
+# Using bind
+
+![bind2](img/bind2.png "bind2")
+
 
 ---
 
