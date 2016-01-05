@@ -335,8 +335,22 @@ var aCar = {
   }
 };
 ```
----
 
+---
+# for..in loop basics
+
+```
+for (var prop in aCar) {
+  console.log("aCar." + prop + " = " + aCar[prop]);
+}
+```
+
+![forin](img/forin.png "forin")
+
+- Do not depend on the order, arbitrary and may change after `delete`!
+- Do not use it on Arrays!
+
+---
 # Prototypes, Object.create()
 
 ```
@@ -350,7 +364,23 @@ porsche.tank = 120;
 ![porsche](img/porsche.png "Porsche")
 
 ---
+# for..in loop II.
 
+![forin2](img/forin2.png "forin2")
+
+- Iterates over enumerable properties
+- `maxSpeed` is coming from the prototype chain
+- Built-in properties of `Object` are not enumerable
+- You can assign non-enumerable properties with `Object.defineProperty()`
+
+---
+# Object.keys()
+
+![objectkeys](img/objectkeys.png "objectkeys")
+
+- Lists own enumerable properties, excluding the ones in the prototype chain
+
+---
 # Contructor function, new operator
 
 ```
