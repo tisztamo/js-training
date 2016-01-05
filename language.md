@@ -374,6 +374,11 @@ porsche.tank = 120;
 - You can assign non-enumerable properties with `Object.defineProperty()`
 
 ---
+# delete and the prototype chain
+
+![delete](img/delete.png "delete")
+
+---
 # Object.keys()
 
 ![objectkeys](img/objectkeys.png "objectkeys")
