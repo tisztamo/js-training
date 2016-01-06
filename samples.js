@@ -267,3 +267,26 @@ function ThisTest(id) {
 ThisTest.prototype.test = function (arg1, arg2) {
   console.log("test: " + JSON.stringify(this) + " arg1: " + arg1 + ", arg2: " + arg2);
 };
+
+function listOwnProperties(obj) {
+  var retval = [];
+  for (var prop in obj) {
+    if (obj.hasOwnProperty(prop)) {
+      retval.push(prop);
+    }
+  }
+  return retval;
+}
+
+
+function CustomError(message, somethingElse) {
+  var error = Error.call(this, message);
+
+  this.name = this.constructor.name;
+  this.message = error.message;
+  this.stack = error.stack;
+  this.customProperty = somethingElse;
+}
+
+CustomError.prototype = Object.create(Error.prototype);
+CustomError.prototype.constructor = CustomError;

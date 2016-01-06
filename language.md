@@ -374,16 +374,31 @@ porsche.tank = 120;
 - You can assign non-enumerable properties with `Object.defineProperty()`
 
 ---
-# delete and the prototype chain
-
-![delete](img/delete.png "delete")
-
----
 # Object.keys()
 
 ![objectkeys](img/objectkeys.png "objectkeys")
 
 - Lists own enumerable properties, excluding the ones in the prototype chain
+
+Since JavaScript 1.8.5. A naive shim:
+
+```
+function listOwnProperties (obj) {
+  var retval = [];
+  for (var prop in obj) {
+    if (obj.hasOwnProperty(prop)) {
+      retval.push(prop);
+    }
+  }
+  return retval;
+}
+```
+
+In library code (still) recommended to use `hasOwnProperty` inside `for..in` loops. 
+---
+# delete and the prototype chain
+
+![delete](img/delete.png "delete")
 
 ---
 # Contructor function, new operator
@@ -523,6 +538,226 @@ ThisTest.prototype.test = function(arg1, arg2) {
 
 ![bind2](img/bind2.png "bind2")
 
+---
+class: center, middle
+
+# 4. A few operators
+
+---
+# typeof operator
+
+![typeof](img/typeof.png "typeof")
+
+Usable only for "primary" data types and for `undefined` checking
+
+---
+# instanceof operator
+
+![instanceof](img/instanceof.png "instanceof")
+
+![instanceof2](img/instanceof2.png "instanceof2")
+
+---
+# in operator
+
+- Returns `true` if and only if the property name is enumerated in `for..in` loops
+- Includes the prototype
+
+![in](img/in.png "in")
+
+---
+# void operator
+
+Evaluates its operand but returns `undefined`.
+
+![void](img/void.png "void")
+
+
+```html
+<a href="javascript:void(document.body.style.backgroundColor='green');">
+  Click here for green background
+</a>
+```
+
+.note[WARNING: Antipattern, never mix JavaScript and HTML]
+
+---
+class: center, middle
+
+# 5. Error Handling
+
+---
+# try, catch, throw, finally basics
+
+![try2](img/try2.png "try2")
+
+![try](img/try.png "try")
+
+---
+# Custom Errors
+
+Possible to subclass Error and check it with `instanceof` in `catch`. 
+
+```
+try {
+  throw new CustomError("custom");
+} catch (e) {
+  if (e instanceof CustomError) {
+    console.warn("CustomError", e);
+  } else {
+    console.warn("Unknown Error", e);
+  }
+}
+```
+
+---
+# Custom Error implementation
+
+To have correct stack trace in every browser, you need some trickery:
+
+```
+function CustomError(message, somethingElse) {
+  var error = Error.call(this, message);
+
+  this.name = this.constructor.name;
+  this.message = error.message;
+  this.stack = error.stack;
+  
+  this.customProperty = somethingElse;
+}
+
+CustomError.prototype = Object.create(Error.prototype);
+CustomError.prototype.constructor = CustomError;
+```
+
+More on this: http://stackoverflow.com/questions/783818/how-do-i-create-a-custom-error-in-javascript
+
+---
+# Error handling in asynchronous code
+
+Async code runs on its own stack, it is not possible to catch exceptions from the initiator code
+
+```
+try {
+  $.get("index.html", function (data) {
+    throw new Error("problem);
+  });
+} catch (e) {
+  // will not catch the Error
+}
+```
+
+---
+# Ways to handle async errors
+
+- Error callback
+  - Separated error handler, like jQuery
+
+```
+    $.ajax({
+      success: function (data, status, xhr) {...},
+      error: function (xhr, status, error) {...}
+    });
+```
+  - Using error object as first parameter of the callback, like Node.js
+
+```
+    db.fetch(query, function(err, result) {
+      if (err) {
+        ...
+      }
+    })
+```
+  
+- Promise - we will see later
+- Higher level error handlers
+  - global: `window.addEventListener("error", function (event) {...})`
+  - domain: naive example: `$.ajaxError()`
+
+---
+
+```
+```
+
+---
+
+```
+```
+
+---
+
+```
+```
+
+---
+
+```
+```
+
+---
+
+```
+```
+
+---
+
+```
+```
+
+---
+
+```
+```
+
+---
+
+```
+```
+
+---
+
+```
+```
+
+---
+
+```
+```
+
+---
+
+```
+```
+
+---
+
+```
+```
+
+---
+
+```
+```
+
+---
+
+```
+```
+
+---
+
+```
+```
+
+---
+
+```
+```
+
+---
+
+```
+```
 
 ---
 
