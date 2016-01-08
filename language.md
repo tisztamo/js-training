@@ -716,10 +716,10 @@ function getTotalFileLengths(path, callback) {
 
 ---
 
-- Promise - we will see later
 - Higher level error handlers
   - global: `window.addEventListener("error", function (event) {...})`
   - domain: naive example: `$.ajaxError()`
+- Promise
 
 ---
 class: center, middle
@@ -728,18 +728,60 @@ class: center, middle
 
 ---
 
+# Promise example: fetch API
+
 ```
+fetch('./api/some.json')  
+  .then(  
+    function(response) {  
+      if (response.status !== 200) {  
+        console.log('Looks like there was a problem. Status Code: ' +  
+          response.status);  
+        return;  
+      }
+
+      // Examine the text in the response  
+      response.json().then(function(data) {  
+        console.log(data);  
+      });  
+    }  
+  )  
+  .catch(function(err) {  
+    console.log('Fetch Error :-S', err);  
+  });
 ```
 
 ---
+# A Promise
 
-```
-```
+- Represents the result of an asynchronous operation.
+
+- 3 states:
+  - **pending**: The initial state, the operation hasn't completed yet, but is expected in the future.
+  - **fulfilled**: The state representing a successful operation.
+  - **rejected**: The state representing a failed operation.
 
 ---
 
+
+
 ```
+getUserByName('nolan').then(function (user) {
+  if (user.isLoggedOut()) {
+    throw new Error('user logged out!'); // throwing a synchronous error!
+  }
+  if (inMemoryCache[user.id]) {
+    return inMemoryCache[user.id];       // returning a synchronous value!
+  }
+  return getUserAccountById(user.id);    // returning a promise!
+}).then(function (userAccount) {
+  // I got a user account!
+}).catch(function (err) {
+  // Boo, I got an error!
+});
 ```
+
+http://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html
 
 ---
 
