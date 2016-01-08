@@ -174,6 +174,28 @@ class: center, middle
 # 2. Collections
 
 ---
+# every(), some(), forEach()
+
+```
+function isBigEnough(element, index, array) {
+  return element >= 10;
+}
+[12, 5, 8, 130, 44].every(isBigEnough);   // false
+[12, 54, 18, 130, 44].every(isBigEnough); // true
+
+[12, 5, 8, 130, 44].some(isBigEnough); // true
+```
+
+```
+function log(val) {
+  console.log(val)
+}
+[12, 5, 8, 130, 44].forEach(log);
+```
+
+- There is no way to break `forEach`, you can use `every` or `some` instead.
+
+---
 
 # Array.map() I.
 
@@ -221,7 +243,7 @@ var twentiestCenturyVideos = videos.filter(function (video) {
 
 ---
 
-#Array.from()
+# Array.from()
 
 `arguments` is not a real Array.
 
@@ -250,7 +272,7 @@ function createFormatter2(template) {
 ```
 ---
 
-#Array.reduce()
+# Array.reduce()
 
 `arr.reduce(callback[, initialValue])`
 
@@ -648,7 +670,7 @@ try {
 ```
 
 ---
-# Ways to handle async errors
+# Ways to handle async errors I.
 
 - Error callback
   - Separated error handler, like jQuery
@@ -668,16 +690,41 @@ try {
       }
     })
 ```
-  
+
+---
+# Problems with callbacks and error handling
+
+```
+function getTotalFileLengths(path, callback) {
+  fs.readdir(path, function (err, fileNames) {
+    var total = 0;
+    var finishedSoFar = 0;
+    function finished() {
+      if (++finishedSoFar === fileNames.length) {
+        callback(total);
+      }
+    }
+    fileNames.forEach(function (fileName) {
+      fs.readFile(fileName, function (err, file) {
+        total += file.length;
+        finished();
+      });
+    });
+  });
+}
+```
+
+---
+
 - Promise - we will see later
 - Higher level error handlers
   - global: `window.addEventListener("error", function (event) {...})`
   - domain: naive example: `$.ajaxError()`
 
 ---
+class: center, middle
 
-```
-```
+# 6. Promises
 
 ---
 
