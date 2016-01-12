@@ -168,6 +168,8 @@ function loadSlides(url, cb) {
 }
 ```
 
+.note[Always call `cb` either synchronously or asynchronously. Do not mix. Use `setImmediate` if needed.]
+
 ---
 class: center, middle
 
@@ -715,11 +717,12 @@ function getTotalFileLengths(path, callback) {
 ```
 
 ---
+# Ways to handle async errors II.
 
 - Higher level error handlers
   - global: `window.addEventListener("error", function (event) {...})`
   - domain: naive example: `$.ajaxError()`
-- Promise
+- Promises
 
 ---
 class: center, middle
@@ -728,27 +731,20 @@ class: center, middle
 
 ---
 
-# Promise example: fetch API
+# Promise example: fetch API usage
 
 ```
-fetch('./api/some.json')  
-  .then(  
-    function(response) {  
-      if (response.status !== 200) {  
-        console.log('Looks like there was a problem. Status Code: ' +  
-          response.status);  
-        return;  
+fetch('./api/some.json').then(function (response) {
+      if (response.status != 200) {
+        return Promise.reject("File not found: " + response.url);
       }
-
-      // Examine the text in the response  
-      response.json().then(function(data) {  
-        console.log(data);  
-      });  
-    }  
-  )  
-  .catch(function(err) {  
-    console.log('Fetch Error :-S', err);  
-  });
+      return response.text();
+    }).then(function(text) {
+      return text.split("\n");
+    }).then(console.log.bind(console))
+    .catch(function(err) {  
+      console.error('Fetch Error: ', err);  
+    });
 ```
 
 ---
@@ -762,71 +758,225 @@ fetch('./api/some.json')
   - **rejected**: The state representing a failed operation.
 
 ---
+# Using Promises gives you
 
+- More readable code
+  - `.then()` style looks similar to synchronous code
+  - A way out of callback hell
+- Error propagation similar to throw-catch-finally
+- Easy parallel and sequential join
+- Guarantees of no race conditions and immutability of the future value represented by the Promise (unlike callbacks and events)
 
+---
+# The secrets of Promise composition
 
 ```
 getUserByName('nolan').then(function (user) {
   if (user.isLoggedOut()) {
-    throw new Error('user logged out!'); // throwing a synchronous error!
+    throw new Error('user logged out!'); // throwing a synchronous error
   }
   if (inMemoryCache[user.id]) {
-    return inMemoryCache[user.id];       // returning a synchronous value!
+    return inMemoryCache[user.id];       // returning a synchronous value
   }
-  return getUserAccountById(user.id);    // returning a promise!
+  return getUserAccountById(user.id);    // returning a promise
 }).then(function (userAccount) {
-  // I got a user account!
+  // I got a user account
 }).catch(function (err) {
-  // Boo, I got an error!
+  // I got an error
 });
 ```
 
-http://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html
+.attribution[http://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html]
 
 ---
+# Parallel join: Promise.all()
+
+Goal: Wait for multiple async operations, continue only when all of them completed.
 
 ```
+db.allDocs({include_docs: true}).then(function (result) {
+  return Promise.all(result.rows.map(function (row) {
+    return db.remove(row.doc);
+  }));
+}).then(function (arrayOfResults) {
+  // All docs have really been removed now
+});
 ```
 
----
+.attribution[http://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html]
+
+Why not just use forEach?
 
 ```
-```
-
----
-
-```
-```
-
----
-
-```
-```
-
----
-
-```
-```
-
----
-
-```
-```
-
----
-
-```
+db.allDocs({include_docs: true}).then(function (result) {
+  return result.rows.forEach(function (row) {
+    db.remove(row.doc);
+  });
+}).then(function () {
+  // Possibly none of the rows are removed at this time
+});
 ```
 
 ---
+# Promise.reject(), Promise.resolve()
+
+An unrealistic example of error propegation and handling
 
 ```
+fetch('./api/some.json').then(function (response) {
+      if (response.status != 200) {
+        return Promise.reject("File not found: " + response.url);
+      }
+      return response.text();
+    }).then(function (text) {
+      console.log("Raw text: " + text);
+      return text;
+    }).catch(function(err) {  
+      console.error('Fetch Error: ', err);  
+      return Promise.resolve("Default value after error");
+    }).then(function(text) {
+      return text.split("\n");
+    }).then(console.log.bind(console));
 ```
 
 ---
+# Creating a Promise
+
+If you are using `Promise` based APIs, you won't need this
 
 ```
+function currentUserName() {
+  return new Promise(function(resolve, reject) {
+    function successHandler(user) {
+      resolve(user.name);
+    }
+    
+    $.ajax('current_user.json', {
+      success: successHandler,
+      error: reject,
+      dataType: "JSON"
+    })
+  });
+}
 ```
+
+```
+//Usage
+currentUserName().then(loadSettings).then(...).catch(...);
+```
+
+---
+# Promise drawbacks / nogoals
+
+- Unhandled rejections are silently ignored. You will see _nothing_. => Always call `.catch()` at the end of the chain.
+- Uncancellable.
+- Will "fire" only once - not for events.
+- Not possible to determine its state.
+
+---
+# Promise quiz
+
+What happens here?
+
+```
+doSomething().then(function () {
+  return doSomethingElse();
+});
+```
+
+```
+doSomething().then(function () {
+  doSomethingElse();
+});
+```
+
+```
+doSomething().then(doSomethingElse());
+```
+
+```
+doSomething().then(doSomethingElse);
+```
+
+.attribution[http://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html]
+
+---
+# Promise Puzzle solutions I.
+
+```
+doSomething().then(function () {
+  return doSomethingElse();
+}).then(finalHandler);
+```
+
+```
+doSomething
+|-----------------|
+                  doSomethingElse(undefined)
+                  |-----------------|
+                                   finalHandler(resultOfDoSomethingElse)
+                                   |------------------|
+```
+
+.attribution[http://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html]
+
+---
+# Promise Puzzle solutions II.
+
+```
+doSomething().then(function () {
+  doSomethingElse();
+}).then(finalHandler);
+```
+
+```
+doSomething
+|-----------------|
+                  doSomethingElse(undefined)
+                  |------------------|
+                  finalHandler(undefined)
+                  |------------------|
+```
+
+.attribution[http://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html]
+
+---
+# Promise Puzzle solutions III.
+
+```
+doSomething().then(doSomethingElse())
+  .then(finalHandler);
+```
+
+```
+doSomethingElse(undefined)
+|---------------------------------|
+doSomething
+|-----------------|
+                  finalHandler(resultOfDoSomething)
+                  |------------------|
+```
+
+.attribution[http://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html]
+
+---
+# Promise Puzzle solutions IV.
+
+```
+doSomething().then(doSomethingElse)
+  .then(finalHandler);
+```
+
+```
+doSomething
+|-----------------|
+                  doSomethingElse(resultOfDoSomething)
+                  |------------------|
+                                     finalHandler(resultOfDoSomethingElse)
+                                     |------------------|
+```
+
+.attribution[http://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html]
 
 ---
 

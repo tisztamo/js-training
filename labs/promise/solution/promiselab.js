@@ -8,8 +8,6 @@ var promiselab = (function promiselab() {
         return Promise.reject("File not found: " + url);
       }
       return response.text();
-    }).then(function (text) {
-      return text;
     });
   }
 
