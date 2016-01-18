@@ -290,3 +290,20 @@ function CustomError(message, somethingElse) {
 
 CustomError.prototype = Object.create(Error.prototype);
 CustomError.prototype.constructor = CustomError;
+
+var file = (function file() {
+  //private
+  function normalize(url) {
+    console.log("In normalize, url: " + url);
+  }
+
+  function loadFile(url, cb) {
+    console.log("In loadFile");
+    var normalizedUrl = normalize(url);
+  }
+
+  //exports
+  return { 
+    loadFile: loadFile
+  };
+})();

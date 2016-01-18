@@ -10,9 +10,9 @@ class: center, middle
 2. Collections
 3. Objects & OOP
 4. Operators
-5. Error handling
-6. Promises
-7. Modules
+5. Modules
+6. Error handling
+7. Promises
 8. Strict mode
 9. The state of ECMAScript 6
 10. The bad parts
@@ -608,7 +608,112 @@ Evaluates its operand but returns `undefined`.
 ---
 class: center, middle
 
-# 5. Error Handling
+# 5. Modules in ECMAScript 5
+
+---
+# The 'jQuery' Module pattern
+
+```
+var file = (function file() {
+  //private
+  function normalize(url) {
+  ...
+  }
+
+  function loadFile(url, cb) {
+    var normalizedUrl = normalize(url);
+    ...
+  }
+
+  //exports
+  return { 
+    loadFile: loadFile
+  };
+})();
+```
+
+.note[State and private functions are hiddenly stored in a closure.]
+
+---
+# Module pattern variant: locally scoped object
+
+```
+var file = (function file() {
+  var exports = {};
+  
+  //private
+  function normalize(url) {
+  ...
+  }
+
+  exports.loadFile = function loadFile (url, cb) {
+    var normalizedUrl = normalize(url);
+    ...
+  }
+
+  return exports;
+})();
+```
+
+---
+# AMD - Asynchronous Module Definition
+
+```
+define("file", 
+  ["storage", "stream"], 
+  function (storage, stream) {
+    function normalize(url) {
+      ...
+    }
+
+    var file = {
+      loadFile: function() {
+        var normalizedUrl = normalize(url);
+        ...
+      }
+    }
+
+    return file;
+});
+```
+
+```
+require(["file", "stream"], function (file, stream) {
+  file.loadFile(...);
+});
+```
+
+.attribution[https://addyosmani.com/writing-modular-js/]
+
+---
+# CommonJS
+
+```
+var storage = require("packages/storage");
+var stream = require("packages/stream");
+
+function normalize(url) {
+  ...
+}
+
+function loadFile(){
+  var normalizedUrl = normalize(url);
+  ...
+}
+
+exports.loadFile = loadFile;
+```
+
+```
+var file = require("./file");
+```
+
+.note[Cleaner approach, but needs some (server-side) transformation to be usable in the browser.]
+
+---
+class: center, middle
+
+# 6. Error Handling
 
 ---
 # try, catch, throw, finally basics
@@ -727,7 +832,7 @@ function getTotalFileLengths(path, callback) {
 ---
 class: center, middle
 
-# 6. Promises
+# 7. Promises
 
 ---
 
@@ -979,28 +1084,102 @@ doSomething
 .attribution[http://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html]
 
 ---
+class: center, middle
 
-```
-```
-
----
-
-```
-```
+# 8. Strict mode
 
 ---
+# "use strict"
 
 ```
+function strict(){
+  "use strict";
+  function nested() {
+    return "And so am I!";
+  }
+  return "Hi!  I'm a strict mode function!  " + nested();
+}
+
+function notStrict() {
+  return "I'm not strict.";
+}
 ```
+
+```
+"use strict";
+
+// strict mode in entire script
+```
+
+.note[Prefer the function scope, or you may have problems after script concatenation.]
 
 ---
+# Strict mode
 
-```
-```
+### Doesn't really affect the life of a good programmer. Turn it on!
+
+- Makes it impossible to accidentally create global variables.
+- Converts some silent fails to throw
+  - assignment to a non-writable property
+  - assignment to a getter-only property
+  - assignment to a new property on a non-extensible object
+  - deleting undeletable property
+- Requires that all properties named in an object literal be unique.
+- Requires that function parameter names be unique.
+- Forbids octal syntax: `var x = 015; // this will throw in strict mode` 
+- Prohibits `with`
+- Eval of strict mode code does not introduce new variables into the surrounding scope.
+- New reserved keywords.
+- Some security related changes. (e.g. `this` won't be `window` if unspecified)
+---
+class: center, middle
+
+# 9. The state of ECMAScript 6
 
 ---
+# ES6 support
+
+![es6-support](img/es6-support.png "es6 support")
+
+As of 18/01/2016. Source: http://kangax.github.io/compat-table/es6/
+
+---
+# Transpilers
+
+- JavaScript to JavaScript compilers
+- ES6 => ES5
+
+- Babel https://babeljs.io/
+- Traceur https://github.com/google/traceur-compiler
+
+---
+# Babel
+
 
 ```
+$ nom init
+$ npm install --save-dev babel-cli babel-preset-es2015
+```
+
+package.json:
+
+```diff
+{
+  "name": "my-project",
+  "version": "1.0.0",
++  "scripts": {
++    "build": "babel src -d lib --source-maps",
++    "watch": "babel src -d lib --source-maps --watch"
++  },
+  "devDependencies": {
+    "babel-cli": "^6.4.0",
+    "babel-preset-es2015": "^6.3.13"
+  }
+}
+```
+
+```
+$ npm run build
 ```
 
 ---
