@@ -1157,24 +1157,26 @@ As of 18/01/2016. Source: http://kangax.github.io/compat-table/es6/
 
 
 ```
-$ nom init
+$ npm init
 $ npm install --save-dev babel-cli babel-preset-es2015
 ```
 
-package.json:
-
 ```diff
-{
+{ // package.json
   "name": "my-project",
-  "version": "1.0.0",
 +  "scripts": {
 +    "build": "babel src -d lib --source-maps",
 +    "watch": "babel src -d lib --source-maps --watch"
 +  },
   "devDependencies": {
     "babel-cli": "^6.4.0",
-    "babel-preset-es2015": "^6.3.13"
-  }
+    ...
+}
+```
+
+```
+{// .babelrc
+  "presets": ["es2015"]
 }
 ```
 
@@ -1182,6 +1184,197 @@ package.json:
 $ npm run build
 ```
 
+---
+# Block scope I: let
+
+```
+function getValue(condition) {
+  if (condition) {
+    let value = "blue";
+    return value;
+  } else {
+    // value doesn't exist here
+    return null;
+  }
+  // value doesn't exist here
+}
+
+for (let i=0; i < 10; i++) {
+  process(items[i]);
+}
+
+//i doesn't exist here
+
+```
+
+
+---
+# Block scope II: const
+
+```
+function calcGForce() {
+  const G = 6.674e-11;
+  const sun = {
+    m: 1.98855e33
+  };
+
+  sun.m += 5e28;
+
+  sun = { //throws error
+    m: 1e34
+  };
+}
+```
+
+Hint: Use `const` as default, switch to `let` if needed. You never really need `var`.
+
+---
+# Block scope III: loops
+
+```
+var funcs = [];
+
+for (let i=0; i < 10; i++) {
+    funcs.push(function() {
+        console.log(i);
+    });
+}
+
+function printFuncs() {
+  funcs.forEach(function (func) {
+    func();
+  })
+}
+```
+
+- This doesn't work with `var`.
+- `let` creates a new variable in every cycle.
+
+---
+# Template literals
+
+```
+console.log(`string text line 1
+string text line 2`);
+```
+
+```
+var a = 5;
+var b = 10;
+console.log(`Fifteen is ${a + b} and not ${2 * a + b}.`);
+
+//Fifteen is 15 and not 20.
+```
+
+---
+# Tagged template literals
+
+```
+function upper(strings, ...keys) {
+  return (function(...values) {
+    var result = [strings[0]];
+    keys.forEach(function(key, i) {
+      result.push(String(values[key]).toUpperCase(), strings[i + 1]);
+    });
+    return result.join('');
+  });
+}
+```
+
+```
+var hello = upper`Hello ${0}!`;
+hello('World');
+
+//"Hello WORLD!"
+```
+
+---
+# Default parameters
+
+```
+function makeRequest(url, timeout = 2000, callback) {
+  console.log("url: " + url);
+  console.log("timeout: " + timeout);
+  console.log("callback: " + callback);
+}
+```
+
+![default-parameters](img/defaultparams.png "Default parameters")
+
+---
+# Class
+
+```
+var ES6 = {};
+
+ES6.Car = class Car {
+  constructor(name, maxSpeed, power, tank, fuelConsumption) {
+    this.name = name;
+    this.maxSpeed = maxSpeed;
+    this.power = power;
+    this.tank = tank;
+    this.fuelConsumption = fuelConsumption;
+  }
+
+  getMaxRange () {
+    return this.tank / this.fuelConsumption * 100;
+  }
+  
+  get horsePower() {
+    return this.power / ONE_HP_IN_KW;
+  }
+    
+  set horsePower(hp) {
+    this.power = hp * ONE_HP_IN_KW;
+  }
+};
+```
+---
+# Inheritance: Derived classes
+
+```
+ES6.Ambulance = class Ambulance extends ES6.Car {
+  constructor() {
+    super("Ambulance Car", 100, 60, 70, 12);
+    this.rangeFactor = 0.8;
+  }
+  
+  getMaxRange() {
+    return super.getMaxRange() * this.rangeFactor;
+  }
+  
+  static staticFn() {
+    console.log("Do Ambulance cars really need static members?");
+  }
+};
+```
+---
+# class compatibility with ES5 OOP
+
+```
+function Car(name, maxSpeed, tank, fuelConsumption) {
+  this.name = name;
+  this.maxSpeed = maxSpeed;
+  this.tank = tank;
+  this.fuelConsumption = fuelConsumption;
+}
+
+...
+
+class ECar extends Car {
+  constructor() {
+    super("ECar");
+  }
+}
+```
+---
+
+```
+```
+---
+
+```
+```
 ---
 
 ```

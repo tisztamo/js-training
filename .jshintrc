@@ -1,6 +1,7 @@
 {
   "browser": true,
   "devel": true,
+  "esnext": true,
   "globalstrict": true,
   "undef": true,
   "unused": true,

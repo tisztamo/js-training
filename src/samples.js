@@ -303,7 +303,98 @@ var file = (function file() {
   }
 
   //exports
-  return { 
+  return {
     loadFile: loadFile
   };
 })();
+
+var ES6 = {};
+
+ES6.Car = class Car {
+  constructor(name, maxSpeed, power, tank, fuelConsumption) {
+    this.name = name;
+    this.maxSpeed = maxSpeed;
+    this.power = power;
+    this.tank = tank;
+    this.fuelConsumption = fuelConsumption;
+  }
+
+  getMaxRange() {
+    return this.tank / this.fuelConsumption * 100;
+  }
+
+  get horsePower() {
+    return this.power / ONE_HP_IN_KW;
+  }
+
+  set horsePower(hp) {
+    this.power = hp * ONE_HP_IN_KW;
+  }
+};
+
+ES6.Ambulance = class Ambulance extends ES6.Car {
+  constructor() {
+    super("Ambulance Car", 100, 60, 70, 12);
+    this.rangeFactor = 0.8;
+  }
+
+  getMaxRange() {
+    return super.getMaxRange() * this.rangeFactor;
+  }
+
+  static staticFn() {
+    console.log("Do Ambulance cars really need static members?");
+  }
+};
+
+class ECar extends Car {
+  constructor() {
+    super("ECar");
+  }
+}
+
+function calcGForce() {
+  const G = 6.674e-11;
+  const sun = {
+    m: 1.98855e33
+  };
+
+  sun.m += 5e28;
+
+/*  sun = { //throws error
+    m: 1e34
+  };*/
+}
+
+var funcs = [];
+
+for (let i = 0; i < 10; i++) {
+  funcs.push(function () {
+    console.log(i);
+  });
+}
+
+
+function printFuncs() {
+  funcs.forEach(function (func) {
+    func();
+  });
+}
+
+function upper(strings, ...keys) {
+  return (function(...values) {
+    var result = [strings[0]];
+    keys.forEach(function(key, i) {
+      result.push(String(values[key]).toUpperCase(), strings[i + 1]);
+    });
+    return result.join('');
+  });
+}
+
+var hello = upper`Hello ${0}!`;
+
+function makeRequest(url, timeout = 2000, callback) {
+  console.log("url: " + url);
+  console.log("timeout: " + timeout);
+  console.log("callback: " + callback);
+}
