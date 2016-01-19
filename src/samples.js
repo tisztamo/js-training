@@ -361,9 +361,9 @@ function calcGForce() {
 
   sun.m += 5e28;
 
-/*  sun = { //throws error
-    m: 1e34
-  };*/
+  /*  sun = { //throws error
+      m: 1e34
+    };*/
 }
 
 var funcs = [];
@@ -382,19 +382,76 @@ function printFuncs() {
 }
 
 function upper(strings, ...keys) {
-  return (function(...values) {
+  return (function (...values) {
     var result = [strings[0]];
-    keys.forEach(function(key, i) {
+    keys.forEach(function (key, i) {
       result.push(String(values[key]).toUpperCase(), strings[i + 1]);
     });
     return result.join('');
   });
 }
 
-var hello = upper`Hello ${0}!`;
+var hello = upper `Hello ${0}!`;
 
 function makeRequest(url, timeout = 2000, callback) {
   console.log("url: " + url);
   console.log("timeout: " + timeout);
   console.log("callback: " + callback);
+}
+
+function createLogEntry(message, ...objects) {
+  const printedObjects = objects.map(function (object) {
+    return JSON.stringify(object);
+  }).join(",\n");
+  return `${message}\nAttached objects: ${printedObjects}`;
+}
+
+
+function createLogEntryA(message, ...objects) {
+  const printedObjects = objects.map(object => JSON.stringify(object)).join(",\n");
+  return `${message}\nAttached objects: ${printedObjects}`;
+}
+
+const sumA = (num1, num2) => {
+  return num1 + num2;
+};
+const doNothing = () => {};
+const getTempItem = id => ({
+  id: id,
+  name: "Temp"
+});
+
+
+function sumOneTo(n) {
+  if (n === 1) {
+    return 1;
+  }
+  return n + sumOneTo(n - 1);
+}
+
+function tailedSumOneTo(n, sum = 0) {
+  if (n === 1) {
+    return sum + 1;
+  }
+  return tailedSumOneTo(n - 1, sum + n);
+}
+
+const generateId = (() => {
+  let id = 0;
+  return function generateId() {
+    return id++;
+  };
+})();
+
+function createPerson(firstName, lastName, idField = "id") {
+  return {
+    firstName,
+    lastName,
+    get fullName() {
+        return `${firstName} ${lastName}`;
+      },
+      toString() {
+        return `[Person] ${this.fullName}`;
+      }, [idField]: generateId()
+  };
 }

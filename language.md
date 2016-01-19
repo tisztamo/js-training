@@ -581,6 +581,8 @@ Usable only for "primary" data types and for `undefined` checking
 
 ![instanceof2](img/instanceof2.png "instanceof2")
 
+- Does not work across iframes!
+
 ---
 # in operator
 
@@ -1251,6 +1253,50 @@ function printFuncs() {
 - `let` creates a new variable in every cycle.
 
 ---
+# Default parameters
+
+```
+function makeRequest(url, timeout = 2000, callback) {
+  console.log("url: " + url);
+  console.log("timeout: " + timeout);
+  console.log("callback: " + callback);
+}
+```
+
+![default-parameters](img/defaultparams.png "Default parameters")
+
+---
+# Rest parameters
+
+```
+function createLogEntry(message, ...objects) {
+  var printedObjects = objects.map(function(object) {
+    return JSON.stringify(object);
+  }).join(",\n");
+  return `${message}\nAttached objects: ${printedObjects}`;
+}
+```
+
+![rest parameters](img/mess.png "Rest parameters")
+
+---
+
+# The spread operator
+
+```
+let nums = [25, 50, 75, 100]
+
+Math.max(...nums);// 100
+
+// Equivalent to:
+Math.max.apply(Math, nums);
+
+
+//But even:
+Math.max(...nums, 110);// 110
+```
+
+---
 # Template literals
 
 ```
@@ -1289,19 +1335,83 @@ hello('World');
 ```
 
 ---
-# Default parameters
+
+# Arrow functions
 
 ```
-function makeRequest(url, timeout = 2000, callback) {
-  console.log("url: " + url);
-  console.log("timeout: " + timeout);
-  console.log("callback: " + callback);
+function createLogEntryA(message, ...objects) {
+  var printedObjects = objects.map(object => JSON.stringify(object))
+    .join(",\n");
+  return `${message}\nAttached objects: ${printedObjects}`;
 }
 ```
 
-![default-parameters](img/defaultparams.png "Default parameters")
+- No `this`, `super`, `arguments` bindings
+- Cannot be called with `new`; no `prototype` property
+
+```
+const sumA = (num1, num2) => {
+    return num1 + num2;
+};
+
+const doNothing = () => {};
+
+const getTempItem = id => ({ id: id, name: "Temp" });
+```
 
 ---
+
+# Tail call optimization - not yet implemented
+
+```
+function sumOneTo(n) {
+  if (n === 1) {
+    return 1;
+  }
+  return n + sumOneTo(n - 1);
+}
+```
+
+```
+function tailedSumOneTo(n, sum = 0) {
+  if (n === 1) {
+    return sum + 1;
+  }
+  return tailedSumOneTo(n - 1, sum + n);
+}
+```
+
+---
+
+# Object literal extensions
+
+```
+const generateId = (() => {
+  let id = 0;
+  return function generateId() {
+    return id++;
+  };
+})();
+```
+
+```
+function createPerson(firstName, lastName, idField = "id") {
+  return {
+    firstName,
+    lastName,
+    get fullName(){
+      return `${firstName} ${lastName}`;
+    },
+    toString() {
+      return `[Person] ${this.fullName}`;
+    },
+    [idField]: generateId()
+  };
+}
+```
+
+---
+
 # Class
 
 ```
