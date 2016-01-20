@@ -330,6 +330,60 @@ MandelWorker.prototype.calculate = function () {
 ```
 
 ---
+
+# Set
+
+```
+var set = new Set();
+set.add(5);
+set.add("5");
+set.add(5); // duplicate, ignored
+
+set.size; // 2
+
+console.log(set.has(5));    // true
+console.log(set.has(6));    // false
+
+set.delete(5);
+set.size; // 1
+
+var setFromArray = new Set([1, 5, 1, 6, 5, 9]);
+setFromArray.size; // 4
+```
+
+ES6, but polyfills available
+---
+
+# Map
+
+```
+var map = new Map([["title", "Understanding ECMAScript 6"],
+                 ["url", "https://leanpub.com/understandinges6/read"]]);
+
+map.has("title"); // true
+map.get("title"); // "Understanding ECMAScript 6"
+
+map.forEach(function (value, key, ownerMap) {
+  console.log(key + ": " + value);
+});
+
+map.delete("title");
+map.size; // 1
+```
+
+- Key can be anything
+
+---
+
+# WeakSet, WeakMap
+
+- Store object references only.
+- Allows garbage collection.
+- Entry will be deleted automatically if no strong reference remains to key.
+- No `forEach()`, `size`, `clear()`.
+- Associating data with DOM objects, caching, storing private data, etc.
+
+---
 class: center, middle
 
 # 3. Objects & OOP
@@ -1412,6 +1466,46 @@ function createPerson(firstName, lastName, idField = "id") {
 
 ---
 
+# Destructuring 
+
+```
+let {firstName, lastName} = createPerson("S", "K");
+
+const {firstName: fn, lastName: ln} = createPerson("Schäffer", "K");
+
+({firstName, lastName} = createPerson("A", "B"));
+```
+
+```
+let names = [ "firstName", "lastName", "C" ];
+
+let [ firstN, secondN ] = names;
+
+let [ , , thirdN ] = names;
+
+[ firstN, secondN ] = [ secondN, firstN ];
+```
+
+---
+
+# Destructuring parameters
+
+```
+function setCookie(name, value, {
+  secure, path, domain, expires
+} = {
+  path: "/"
+}) {
+  console.log("path: " + path);
+}
+
+setCookie("name", "value", {
+  path: "/sdf"
+});
+```
+
+---
+
 # Class
 
 ```
@@ -1458,7 +1552,9 @@ ES6.Ambulance = class Ambulance extends ES6.Car {
   }
 };
 ```
+
 ---
+
 # class compatibility with ES5 OOP
 
 ```
@@ -1477,15 +1573,57 @@ class ECar extends Car {
   }
 }
 ```
+
 ---
 
-```
-```
----
+#Symbols
 
 ```
+const person = { name: "SK", privateNumber: "XXXXXXX"};
+
+const privateNumber = Symbol("privateNumber");
+person[privateNumber] = "+362065268556";
 ```
+
+![Symbols](img/symbol.png "Symbols")
+
 ---
+
+# The Symbol registry
+
+```
+const sharedPrivateNumber = Symbol.for("privateNumber");
+person[sharedPrivateNumber] = "+363000000000";
+
+const spn = Symbol.for("privateNumber");
+```
+
+![Symbols2](img/symbol2.png "Symbols 2")
+
+---
+
+# Iterators, for of
+
+```
+let onetwo = [1, 2];
+let iterator = onetwo[Symbol.iterator]();
+
+iterator.next(); // { value: 1, done: false }
+iterator.next(); // { value: 2, done: false }
+iterator.next(); // { value: undefined, done: true }
+```
+
+```
+for (let num of onetwo) {
+  console.log(num);
+}
+// 1
+// 2
+```
+
+---
+
+#
 
 ```
 ```

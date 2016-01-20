@@ -117,6 +117,12 @@ function createFormatter3(template) {
   };
 }
 
+var set = new Set();
+set.add(5);
+set.add("5");
+set.add(5); // duplicate, ignored
+
+
 var ONE_HP_IN_KW = 0.745699872;
 var aCar = {
   name: "Trabant 601",
@@ -455,3 +461,46 @@ function createPerson(firstName, lastName, idField = "id") {
       }, [idField]: generateId()
   };
 }
+
+let {
+  firstName, lastName
+} = createPerson("S", "K");
+const {
+  firstName: fn,
+  lastName: ln
+} = createPerson("Sch", "K");
+({
+  firstName, lastName
+} = createPerson("A", "B"));
+
+let names = ["firstName", "lastName", "C"];
+
+let [firstN, secondN] = names;
+
+let [, , thirdN] = names;
+
+[firstN, secondN] = [secondN, firstN];
+
+
+function setCookie(name, value, {
+  secure, path, domain, expires
+} = {
+  path: "/"
+}) {
+  console.log("path: " + path);
+}
+
+
+const person = { name: "SK", privateNumber: "XXXXXXX"};
+
+const privateNumber = Symbol("privateNumber");
+person[privateNumber] = "+362065268556";
+
+
+const sharedPrivateNumber = Symbol.for("privateNumber");
+person[sharedPrivateNumber] = "+363000000000";
+
+const spn = Symbol.for("privateNumber");
+
+let onetwo = [1, 2];
+let iterator = onetwo[Symbol.iterator]();
