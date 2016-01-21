@@ -1214,26 +1214,27 @@ As of 18/01/2016. Source: http://kangax.github.io/compat-table/es6/
 
 ```
 $ npm init
-$ npm install --save-dev babel-cli babel-preset-es2015
+$ npm install --save-dev babel-cli babel-preset-es2015 babel-polyfill
 ```
 
-```diff
-{ // package.json
-  "name": "my-project",
-+  "scripts": {
-+    "build": "babel src -d lib --source-maps",
-+    "watch": "babel src -d lib --source-maps --watch"
-+  },
-  "devDependencies": {
-    "babel-cli": "^6.4.0",
-    ...
-}
+```
+// package.json
+...
+  "scripts": {
+    "build": "babel src -d lib --source-maps",
+    "watch": "babel src -d lib --source-maps --watch"
+  },
+...
 ```
 
 ```
 {// .babelrc
   "presets": ["es2015"]
 }
+```
+
+```
+<script src="node_modules/babel-polyfill/dist/polyfill.min.js"></script>
 ```
 
 ```
@@ -1623,8 +1624,44 @@ for (let num of onetwo) {
 
 ---
 
-#
+# Generators
 
 ```
+function* everySecond(items) {
+  for (let i = 0; i < items.length; i += 2) {
+    yield items[i];
+  }
+}
 ```
+
+![generator](img/generator.png "Generator")
+
+---
+
+# Iterable, complex example I.
+
+```
+const stepper = (() => {
+  const items = Symbol("items");
+  return function stepper(initItems = [], step = 1, skip = 0) {
+    return {
+      [items]: initItems,
+      step,
+      skip,
+      * [Symbol.iterator]() {
+        for (let i = this.skip; i < this[items].length; i += this.step) {
+          yield this[items][i];
+        }
+      }
+    };
+  };
+})();
+```
+![iterable](img/iterable.png "iterable")
+
+---
+
+# Iterable, complex example II.
+
+![iterable2](img/iterable2.png "iterable2")
 

@@ -1,5 +1,7 @@
 "use strict";
 
+/*jshint -W098*/
+
 function ackermann(m, n) {
   if (m === 0) {
     return n + 1;
@@ -374,11 +376,13 @@ function calcGForce() {
 
 var funcs = [];
 
+/*jshint -W083*/
 for (let i = 0; i < 10; i++) {
   funcs.push(function () {
     console.log(i);
   });
 }
+/*jshint +W083*/
 
 
 function printFuncs() {
@@ -399,7 +403,7 @@ function upper(strings, ...keys) {
 
 var hello = upper `Hello ${0}!`;
 
-function makeRequest(url, timeout = 2000, callback) {
+function makeRequest(url, timeout = 2000, callback = undefined) {
   console.log("url: " + url);
   console.log("timeout: " + timeout);
   console.log("callback: " + callback);
@@ -462,7 +466,7 @@ function createPerson(firstName, lastName, idField = "id") {
   };
 }
 
-let {
+/*let {
   firstName, lastName
 } = createPerson("S", "K");
 const {
@@ -471,7 +475,7 @@ const {
 } = createPerson("Sch", "K");
 ({
   firstName, lastName
-} = createPerson("A", "B"));
+} = createPerson("A", "B"));*/
 
 let names = ["firstName", "lastName", "C"];
 
@@ -491,7 +495,10 @@ function setCookie(name, value, {
 }
 
 
-const person = { name: "SK", privateNumber: "XXXXXXX"};
+const person = {
+  name: "SK",
+  privateNumber: "XXXXXXX"
+};
 
 const privateNumber = Symbol("privateNumber");
 person[privateNumber] = "+362065268556";
@@ -504,3 +511,25 @@ const spn = Symbol.for("privateNumber");
 
 let onetwo = [1, 2];
 let iterator = onetwo[Symbol.iterator]();
+
+function* everySecond(items) {
+  for (let i = 0; i < items.length; i += 2) {
+    yield items[i];
+  }
+}
+
+const stepper = (() => {
+  const items = Symbol("items");
+  return function stepper(initItems = [], step = 1, skip = 0) {
+    return {
+      [items]: initItems,
+      step,
+      skip,
+      * [Symbol.iterator]() {
+        for (let i = this.skip; i < this[items].length; i += this.step) {
+          yield this[items][i];
+        }
+      }
+    };
+  };
+})();
