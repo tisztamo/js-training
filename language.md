@@ -1699,5 +1699,15 @@ import sim from "space";
 import { SpaceObject, G } from "space";
 import * as space from "space";
 import {publicFn as f} from "space";
+
+sim(); // simulate()
+
+SpaceObject;
+G;
+
+space.G;
+
+f();
+
 ```
 

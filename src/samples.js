@@ -2,6 +2,8 @@
 
 /*jshint -W098*/
 
+//import * as space from "./lib/space";
+
 function ackermann(m, n) {
   if (m === 0) {
     return n + 1;
@@ -523,13 +525,15 @@ const stepper = (() => {
   return function stepper(initItems = [], step = 1, skip = 0) {
     return {
       [items]: initItems,
-      step,
-      skip,
-      * [Symbol.iterator]() {
-        for (let i = this.skip; i < this[items].length; i += this.step) {
-          yield this[items][i];
+      push(item) {
+          this[items].push(item);
+        },
+        step,
+        skip, * [Symbol.iterator]() {
+          for (let i = this.skip; i < this[items].length; i += this.step) {
+            yield this[items][i];
+          }
         }
-      }
     };
   };
 })();
