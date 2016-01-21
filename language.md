@@ -1264,6 +1264,7 @@ for (let i=0; i < 10; i++) {
 
 ```
 
+.attribution[Some ES6 examples adapted from the book [Understanding ECMAScript 6](https://leanpub.com/understandinges6/read) by Nicholas C. Zakas] 
 
 ---
 # Block scope II: const
