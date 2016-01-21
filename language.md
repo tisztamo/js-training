@@ -1283,7 +1283,8 @@ function calcGForce() {
 }
 ```
 
-Hint: Use `const` as default, switch to `let` if needed. You never really need `var`.
+- Hint: Use `const` as default, switch to `let` if needed. You never really need `var`.
+- Note: The reference is constant, not the value. Use `Object.freeze()` to prevent modification of properties.
 
 ---
 # Block scope III: loops
@@ -1646,6 +1647,9 @@ const stepper = (() => {
   return function stepper(initItems = [], step = 1, skip = 0) {
     return {
       [items]: initItems,
+      push(item) {
+        this[items].push(item);
+      },
       step,
       skip,
       * [Symbol.iterator]() {
@@ -1657,11 +1661,43 @@ const stepper = (() => {
   };
 })();
 ```
-![iterable](img/iterable.png "iterable")
 
 ---
 
 # Iterable, complex example II.
 
-![iterable2](img/iterable2.png "iterable2")
+![iterable](img/iterable.png "iterable")
+
+---
+
+# Modules I. Defining a module
+
+```
+export const G = 6.674e-11;
+
+export class SpaceObject {
+}
+
+export default function simulate() {
+}
+
+function privateFn() {
+}
+
+function publicFn() {
+}
+
+export publicFn();
+```
+
+---
+
+# Modules II. import
+
+```
+import sim from "space";
+import { SpaceObject, G } from "space";
+import * as space from "space";
+import {publicFn as f} from "space";
+```
 
