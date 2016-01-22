@@ -646,22 +646,6 @@ Usable only for "primary" data types and for `undefined` checking
 ![in](img/in.png "in")
 
 ---
-# void operator
-
-Evaluates its operand but returns `undefined`.
-
-![void](img/void.png "void")
-
-
-```html
-<a href="javascript:void(document.body.style.backgroundColor='green');">
-  Click here for green background
-</a>
-```
-
-.note[WARNING: Antipattern, never mix JavaScript and HTML]
-
----
 class: center, middle
 
 # 5. Modules in ECMAScript 5
@@ -1711,4 +1695,113 @@ space.G;
 f();
 
 ```
+
+---
+class: center, middle
+
+# 10. The Bad Parts
+
+---
+
+# Global variables
+
+- Scripts share a common execution context.
+- Accidental declaration of global variables is possible
+  - not in strict mode
+- Name conflict is a real problem
+  - Use namespace objects or modules
+ 
+---
+
+# Semicolon insertion
+
+```
+function returnObj() {
+  return
+  {
+    status: true
+  };
+}
+```
+
+![returnobj](img/returnobj.png "returnobj")
+
+---
+
+# type coercion, ==
+
+![coercion](img/coercion.png "coercion")
+
+Not transitive, avoid it. Use `===` and `!==`
+
+---
+
+# typeof, instanceof
+
+Unreliable, as discussed earlier
+
+---
+
+# parseInt, parseFloat
+
+![parseint](img/parseint.png "parseint")
+
+![number](img/number.png "number")
+
+Never use parseInt. Avoid parseFloat too. Use `Number()` instead.
+
+---
+
+# NaN
+
+![nan](img/nan.png "nan")
+
+```
+function isNumber(value) {
+  return typeof value === 'number' && isFinite(value);
+}
+```
+
+.attribution[Douglas Crockford: "JavaScript: The Good Parts"]
+
+---
+
+# Truthy & Falsy values
+
+![falsy](img/falsy.png "falsy")
+
+Be aware of it in condition evaluation!
+
+---
+
+# with statement
+
+Just do not use it.
+
+---
+
+# eval
+
+You never really need it. Turn it off using content security policy!
+
+---
+
+# void operator
+
+Evaluates its operand but returns `undefined`. You don't really need it.
+
+![void](img/void.png "void")
+
+An old example:
+
+
+```html
+<a href="javascript:void(document.body.style.backgroundColor='green');">
+  Click here for green background
+</a>
+```
+
+.note[WARNING: Antipattern, never mix JavaScript and HTML]
+
+---
 

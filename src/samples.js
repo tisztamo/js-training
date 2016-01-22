@@ -537,3 +537,10 @@ const stepper = (() => {
     };
   };
 })();
+
+function returnObj() {
+  return
+  {
+    status: true
+  };
+}
