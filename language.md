@@ -168,7 +168,7 @@ function loadSlides(url, cb) {
 }
 ```
 
-.note[Always call `cb` either synchronously or asynchronously. Do not mix. Use `setImmediate` if needed.]
+.note[To preserve consistent running order, do not mix synchronous and asynchronous calls to `cb`. Use `setImmediate` if needed.]
 
 ---
 class: center, middle
@@ -280,16 +280,22 @@ function createFormatter2(template) {
 
 Parameters
 
-`callback`: Accumulator function to execute on each value in the array, taking four arguments:
+`callback`: Accumulator function to execute on each value in the array:
 
 - `previousValue`:
       The value previously returned in the last invocation of the callback, or initialValue, if supplied.
 - `currentValue`:
-    The current element being processed in the array.
+    The current element being processed.
 - `currentIndex`:
-    The index of the current element being processed in the array.
+    The index of the current element being processed.
 - `array`:
     The array reduce was called upon.
+
+
+```
+	var ratings = [2,3,1,4,5];
+	return ratings.reduce(Math.max);
+```
 
 ```
 function createFormatter3(template) {
@@ -382,6 +388,8 @@ map.size; // 1
 - Entry will be deleted automatically if no strong reference remains to key.
 - No `forEach()`, `size`, `clear()`.
 - Associating data with DOM objects, caching, storing private data, etc.
+
+ES6!
 
 ---
 class: center, middle
@@ -517,7 +525,7 @@ function Ambulance() {
   Car.call(this, "Ambulance Car", 100, 70, 12);
 }
 
-Ambulance.prototype = new Car();
+Ambulance.prototype = Object.create(Car.prototype);// pre ES5: new Car();
 Ambulance.prototype.constructor = Ambulance;
 
 var ambulance = new Ambulance();

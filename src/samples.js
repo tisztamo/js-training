@@ -113,6 +113,8 @@ function createFormatter2(template) {
   };
 }
 
+var ratings = [2,3,1,4,5];
+
 function createFormatter3(template) {
   return function formatter() {
     return Array.from(arguments).reduce(function (formatted, arg, idx) {
@@ -172,11 +174,10 @@ function Ambulance() {
   Car.call(this, "Ambulance Car", 100, 70, 12);
 }
 
-Ambulance.prototype = new Car();
+Ambulance.prototype = Object.create(Car.prototype);
 Ambulance.prototype.constructor = Ambulance;
 
 var ambulance = new Ambulance();
-
 
 function Vector(x, y) {
   this.x = x;

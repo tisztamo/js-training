@@ -36,10 +36,33 @@
   var rendered = templates.render(document.getElementById("template-videolist"), data);
   document.body.appendChild(rendered);
   </pre>
-  Output:
+  
+  Required output:
+  <div id="requiredoutput"><ul id="id82273">
+      <li data-viewlist="videos" id="id85084">
+        <div>Title: <span data-view="title">Armageddon</span>
+        </div>
+        <div>Year: <span data-view="year">1998</span>
+        </div>
+        <div>Actors: <span data-viewlist="actors" id="id96776"><span data-view="name">Bruce Willis</span>; </span><span data-viewlist="actors" id="id91404"><span data-view="name">Billy Bob Thornton</span>; </span><span data-viewlist="actors" id="id26289"><span data-view="name">Ben Affleck</span>; </span><span data-viewlist="actors" id="id94935"><span data-view="name">Liv Tyler</span>; </span></div>
+      </li><li data-viewlist="videos" id="id68730">
+        <div>Title: <span data-view="title">The Theory of Everything</span>
+        </div>
+        <div>Year: <span data-view="year">2014</span>
+        </div>
+        <div>Actors: <span data-viewlist="actors" id="id30967"><span data-view="name">Eddie Redmayne</span>; </span><span data-viewlist="actors" id="id39253"><span data-view="name">Felicity Jones</span>; </span><span data-viewlist="actors" id="id16832"><span data-view="name">Emily Watson</span>; </span></div>
+      </li>
+    </ul>
+  </div>
+  
+  Output of your solution:
   <div id="output"></div>
+  
+  
   <h3>Implement it without using any cycle!</h3>
   
+  <div>Note: Start with simpler inputs, use the following tests implemented in tests.js:</div>
+
   <div id="qunit"></div>
   <div id="qunit-fixture"></div>
   <script src="https://code.jquery.com/qunit/qunit-1.20.0.js"></script>
@@ -89,8 +112,12 @@
     }]
     };
 
-    var rendered = templates.render(document.getElementById("template-videolist"), data);
-    document.getElementById("output").appendChild(rendered);
+    try {
+      var rendered = templates.render(document.getElementById("template-videolist"), data);
+      document.getElementById("output").appendChild(rendered);
+    } catch(e) {
+      document.getElementById("output").textContent = "Error: " + e;
+    }
   </script>
 </body>
 
