@@ -43,3 +43,7 @@ h3 {
   left: 3px;
   font-size: 10px;
 }
+
+.hiddenlinks a {
+  text-decoration: none;
+}

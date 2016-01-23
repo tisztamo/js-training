@@ -23,5 +23,6 @@ fetch is not working on file://`
       source: body,
       highlightLanguage: "javascript"
     });
+    document.title = `${url} - JavaScript training`;
   });
 })();

@@ -4,20 +4,53 @@ class: center, middle
 
 ---
 
-# Agenda
+# Why?
 
-1. Functions
-2. Collections
-3. Objects & OOP
-4. Operators
-5. Modules
-6. Error handling
-7. Promises
-8. Strict mode
-9. The state of ECMAScript 6
-10. The bad parts
+```
+/*
+	Usage: set the javaScript variables endDate,
+  countDownId, countDownTimeFormat,
+  function timeIsUpFunction() and include this js
+*/
+
+function displayTimeLeft() {
+	now = new Date();    
+    var mSecs = endDate - now;
+	if (mSecs >= 0) {    
+.
+.
+.
+    setTimeout("displayTimeLeft()", 990);
+	} else {        
+		timeIsUpFunction();
+		return true;
+	}
+}
+
+displayTimeLeft();
+```
+
+.attribution[https://direktnet.raiffeisen.hu/direktnet/js/countDown.js]
 
 ---
+name: agenda
+class: hiddenlinks
+
+# Agenda
+
+1. [Functions](#functions)
+2. [Collections](#collections)
+3. [Objects & OOP](#oop)
+4. [A few operators](#operators)
+5. [Modules](#modules)
+6. [Error handling](#errorhandling)
+7. [Promises](#promises)
+8. [Strict mode](#strictmode)
+9. [The state of ECMAScript 6](#es6)
+10. [The bad parts](#badparts)
+
+---
+name: functions
 class: center, middle
 
 # 1. Functions
@@ -171,6 +204,7 @@ function loadSlides(url, cb) {
 .note[To preserve consistent running order, do not mix synchronous and asynchronous calls to `cb`. Use `setImmediate` if needed.]
 
 ---
+name: collections
 class: center, middle
 
 # 2. Collections
@@ -392,6 +426,7 @@ map.size; // 1
 ES6!
 
 ---
+name: oop
 class: center, middle
 
 # 3. Objects & OOP
@@ -625,6 +660,7 @@ ThisTest.prototype.test = function(arg1, arg2) {
 ![bind2](img/bind2.png "bind2")
 
 ---
+name: operators
 class: center, middle
 
 # 4. A few operators
@@ -654,6 +690,7 @@ Usable only for "primary" data types and for `undefined` checking
 ![in](img/in.png "in")
 
 ---
+name: modules
 class: center, middle
 
 # 5. Modules in ECMAScript 5
@@ -759,6 +796,7 @@ var file = require("./file");
 .note[Cleaner approach, but needs some (server-side) transformation to be usable in the browser.]
 
 ---
+name: errorhandling
 class: center, middle
 
 # 6. Error Handling
@@ -878,6 +916,7 @@ function getTotalFileLengths(path, callback) {
 - Promises
 
 ---
+name: promises
 class: center, middle
 
 # 7. Promises
@@ -1132,6 +1171,7 @@ doSomething
 .attribution[http://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html]
 
 ---
+name: strictmode
 class: center, middle
 
 # 8. Strict mode
@@ -1180,6 +1220,7 @@ function notStrict() {
 - New reserved keywords.
 - Some security related changes. (e.g. `this` won't be `window` if unspecified)
 ---
+name: es6
 class: center, middle
 
 # 9. The state of ECMAScript 6
@@ -1705,6 +1746,7 @@ f();
 ```
 
 ---
+name: badparts
 class: center, middle
 
 # 10. The Bad Parts

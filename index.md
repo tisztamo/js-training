@@ -5,6 +5,8 @@ class: center, middle
 2 days training
 
 ---
+class: hiddenlinks
+name: agenda
 
 # Agenda
 
