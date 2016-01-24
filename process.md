@@ -126,3 +126,35 @@ package.json:
 }
 ```
 
+---
+
+# Linting with jshint
+
+```bash
+$ npm install --save-dev jshint
+```
+
+.jshintrc:
+```
+{
+  "browser": true,
+  "devel": true,
+  "esnext": true,
+  "globalstrict": true,
+  "undef": true,
+  "unused": true,
+  "predef": ["fetch",
+             "remark",
+             "QUnit"
+             ]
+}
+```
+
+```bash
+$ jshint src/player.js
+src/player.js: line 22, col 11, 'slideshow' is defined but never used.
+
+1 error
+```
+
+
