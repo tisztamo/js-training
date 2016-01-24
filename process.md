@@ -44,16 +44,17 @@ package.json:
     "whatwg-fetch": "^0.10.1"
   },
   "main": "player.js",
-  "devDependencies": {
+   "devDependencies": {
     "babel-cli": "^6.4.0",
     "babel-polyfill": "^6.3.14",
-    "babel-preset-es2015": "^6.3.13"
+    "babel-preset-es2015": "^6.3.13",
+    "ws": "*"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel src -d lib --source-maps",
-    "watch": "babel src -d lib --source-maps --watch"
-  }  
+    "watch": "babel src -d lib --source-maps --watch",
+    "serve": "ws"
+  }
 }
 ```
 
