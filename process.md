@@ -46,7 +46,6 @@ package.json:
   "main": "player.js",
    "devDependencies": {
     "babel-cli": "^6.4.0",
-    "babel-polyfill": "^6.3.14",
     "babel-preset-es2015": "^6.3.13",
     "ws": "*"
   },
@@ -66,8 +65,64 @@ Caret allows changes that do not modify the left-most non-zero digit in the [maj
 
 # Npm II.
 
-package.json continued:
-```
+- Npm has a simple task tunner too
+
+```bash
+$ git clone https://github.com/tisztamo/js-training
+$ cd js-training/
+$ npm update
+$ npm run build
+$ npm run serve
 ```
 
+---
+
+# Client side dependency management with Npm.
+
+```bash
+$ npm install jquery --save-dev
+```
+
+```
+"dependencies": {
+  "whatwg-fetch": "^0.10.1",
+  "jquery": "^2.2.0"
+}
+```
+
+```html
+<script src="/node_modules/jquery/dist/jquery.min.js"></script>
+```
+
+In a build step, copy out the needed files to a `lib` directory.
+
+Alternative: [Bower](http://bower.io/). No copy needed, but yet another tool and has problems with the flat structure.
+
+---
+
+# Module loading & packaging with webpack
+
+```bash
+npm install webpack webpack-dev-server --save-dev
+```
+
+```
+<script type="text/javascript" src="bundle.js" charset="utf-8"></script>
+```
+
+package.json:
+
+```
+{
+...
+  "scripts": {
+    "build": "webpack --devtool sourcemap",
+    "watch": "webpack-dev-server --progress --colors --devtool sourcemap"
+  },
+  "devDependencies": {
+    "webpack": "^1.12.12",
+    "webpack-dev-server": "^1.14.1"
+  }
+}
+```
 

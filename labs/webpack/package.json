@@ -1,0 +1,12 @@
+{
+  "name": "webpacklab",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "webpack --devtool sourcemap",
+    "watch": "webpack-dev-server --progress --colors --devtool sourcemap"
+  },
+  "devDependencies": {
+    "webpack": "^1.12.12",
+    "webpack-dev-server": "^1.14.1"
+  }
+}
