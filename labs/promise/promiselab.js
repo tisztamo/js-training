@@ -1,4 +1,3 @@
-/*globals Promise*/
 "use strict";
 
 var promiselab = (function promiselab() {

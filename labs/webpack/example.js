@@ -1,4 +1,3 @@
-/*globals require*/
 "use strict";
 
 QUnit.test("Module 'increment' should expose the function 'increment()'", function (assert) {
