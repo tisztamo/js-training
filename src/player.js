@@ -1,7 +1,7 @@
 "use strict";
 
 (function player() {
-  const allowedUrls = new Set(["index.md", "language.md", "browser.md", "process.md"]);
+  const allowedUrls = new Set(["index.md", "language.md", "browser.md", "process.md", "es6.md"]);
   
   function slidesUrl() {
     const url = window.location.search.substr(1);
@@ -9,7 +9,7 @@
       return url;
     }
     if (url) {
-      console.error(`"${url}" is not allowed.`);
+      console.error(`"${url}" is not allowed. Add it to the allowedUrls array.`);
     }
     return "index.md";
   }
