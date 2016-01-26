@@ -683,6 +683,8 @@ var subaru = new Car("Subaru WRX STI", 255);
 
 ![subaru](img/subaru.png "subaru")
 
+.note[If the constructor returns an object, that one will be the created object instead of `this`]
+
 ---
 
 # Constructor with prototype
@@ -888,6 +890,11 @@ var ambulance = function ambulance(registrationNumber) {
   return self;
 };
 ```
+
+---
+class: center, middle
+
+# Lab: OOP
 
 ---
 name: operators

@@ -156,5 +156,8 @@ src/player.js: line 22, col 11, 'slideshow' is defined but never used.
 
 1 error
 ```
+---
+class: center, middle
 
+# Lab: Loading CommonJS modules with Webpack
 
