@@ -113,7 +113,7 @@ function createFormatter2(template) {
   };
 }
 
-var ratings = [2,3,1,4,5];
+var ratings = [2, 3, 1, 4, 5];
 
 function createFormatter3(template) {
   return function formatter() {
@@ -122,6 +122,13 @@ function createFormatter3(template) {
     }, template);
   };
 }
+
+
+var logger = ["debug", "log", "warn", "error"].reduce(
+  function (logger, level) {
+    logger[level] = createLogger(level + ": %1", document.body, level);
+    return logger;
+  }, {});
 
 var set = new Set();
 set.add(5);
@@ -289,6 +296,46 @@ function listOwnProperties(obj) {
   return retval;
 }
 
+
+var car = function (name, maxSpeed, tank, fuelConsumption) {
+  var power = 0;
+  var self = {
+    name: name,
+    maxSpeed: maxSpeed,
+    tank: tank,
+    fuelConsumption: fuelConsumption,
+    getMaxRange: function () {
+      return self.tank / self.fuelConsumption * 100;
+    },
+    get horsePower() {
+      return power / ONE_HP_IN_KW;
+    },
+    set horsePower(hp) {
+      power = hp * ONE_HP_IN_KW;
+    }
+  };
+  return self;
+};
+
+var registered = function (self, registrationNumber) {
+  self.registrationNumber = registrationNumber;
+  return {
+    checkValidity: function () {
+      console.log(self.registrationNumber + " is valid. Name: " + self.name);
+    }
+  };
+};
+
+var ambulance = function ambulance(registrationNumber) {
+  var self = car("Ambulance car", 120, 50, 16);
+  Object.assign(self,
+    registered(self, registrationNumber), {
+      nino: function () {
+        console.log("Nino: " + self.name);
+      }
+    });
+  return self;
+};
 
 function CustomError(message, somethingElse) {
   var error = Error.call(this, message);
@@ -540,8 +587,7 @@ const stepper = (() => {
 })();
 
 function returnObj() {
-  return
-  {
+  return {
     status: true
   };
 }

@@ -40,20 +40,20 @@ class: hiddenlinks
 
 0. [Some History](#history)
 1. [Functions](#functions)
-2. [Collections](#collections)
-3. [Objects & OOP](#oop)
-4. [A few operators](#operators)
-5. [Modules](#modules)
-6. [Error handling](#errorhandling)
-7. [Promises](#promises)
-8. [Strict mode](#strictmode)
-9. [The bad parts](#badparts)
+1. [Collections](#collections)
+1. [Modules](#modules)
+1. [Objects & OOP](#oop)
+1. [A few operators](#operators)
+1. [Error handling](#errorhandling)
+1. [Promises](#promises)
+1. [Strict mode](#strictmode)
+1. [The bad parts](#badparts)
 
 ---
 name: history
 class: center, middle
 
-# 1. The Brief History of JavaScript
+# The Brief History of JavaScript
 
 ---
 class: center, middle
@@ -64,7 +64,7 @@ JavaScript was created in 10 days in May 1995 by Brendan Eich (Netscape)
 name: functions
 class: center, middle
 
-# 1. Functions
+# Functions
 
 ---
 
@@ -83,6 +83,7 @@ function ackermann(m, n) {
 ```
 
 ![ackermann output](img/ackermann.png "ackermann output")
+
 ---
 
 # Arguments
@@ -172,6 +173,8 @@ function createLogger(template, targetElement) {
 }
 ```
 
+.smallab[Create a warn logger which logs to .remark-help-content with orange color!]
+
 ---
 
 # Closures in loops - this will not work
@@ -218,7 +221,7 @@ function loadSlides(url, cb) {
 name: collections
 class: center, middle
 
-# 2. Collections
+# Collections
 
 ---
 # every(), some(), forEach()
@@ -240,7 +243,7 @@ function log(val) {
 [12, 5, 8, 130, 44].forEach(log);
 ```
 
-- There is no way to break `forEach`, you can use `every` or `some` instead.
+There is no way to break `forEach`, you can use `every` or `some` instead.
 
 ---
 
@@ -252,6 +255,16 @@ var roots = numbers.map(Math.sqrt);
 ```
 
 ![roots output](img/map1.png "roots output")
+
+.smallab[Create an array of loggers for the levels "debug", "log", "warn" and "error", without writing more than 3 parentheses! Example: ]
+
+```
+log[0]("Now we understand closures.");
+
+log[3]("Critical error");
+```
+
+
 ---
 # Array.map() II.
 
@@ -353,6 +366,16 @@ function createFormatter3(template) {
 ```
 
 ---
+# Small Lab
+
+```
+var logger = ["debug", "log", "warn", "error"]...
+```
+
+![logger](img/logger.png "logger")
+![loggeroutput](img/loggeroutput.png "loggeroutput")
+
+---
 
 # Typed arrays I.: architecture
 
@@ -437,10 +460,122 @@ map.size; // 1
 ES6!
 
 ---
+name: modules
+class: center, middle
+
+# Modules in ECMAScript 5
+
+---
+# The 'jQuery' Module pattern
+
+```
+var file = (function file() {
+  //private
+  function normalize(url) {
+  ...
+  }
+
+  function loadFile(url, cb) {
+    var normalizedUrl = normalize(url);
+    ...
+  }
+
+  //exports
+  return { 
+    loadFile: loadFile
+  };
+})();
+```
+
+.note[State and private functions are hiddenly stored in a closure.]
+
+---
+# Module pattern variant: locally scoped object
+
+```
+var file = (function file() {
+  var exports = {};
+  
+  //private
+  function normalize(url) {
+  ...
+  }
+
+  exports.loadFile = function loadFile (url, cb) {
+    var normalizedUrl = normalize(url);
+    ...
+  }
+
+  return exports;
+})();
+```
+
+---
+# AMD - Asynchronous Module Definition
+
+```
+define("file", 
+  ["storage", "stream"], 
+  function (storage, stream) {
+    function normalize(url) {
+      ...
+    }
+
+    var file = {
+      loadFile: function() {
+        var normalizedUrl = normalize(url);
+        ...
+      }
+    }
+
+    return file;
+});
+```
+
+```
+require(["file", "stream"], function (file, stream) {
+  file.loadFile(...);
+});
+```
+
+.attribution[https://addyosmani.com/writing-modular-js/]
+
+---
+# CommonJS
+
+```
+var storage = require("packages/storage");
+var stream = require("packages/stream");
+
+function normalize(url) {
+  ...
+}
+
+function loadFile(){
+  var normalizedUrl = normalize(url);
+  ...
+}
+
+exports.loadFile = loadFile;
+```
+
+```
+var file = require("./file");
+```
+
+.note[Cleaner approach, but needs some (server-side) transformation to be usable in the browser.]
+
+---
+name: functionallab
+class: center, middle
+
+# Lab: Functional programming
+
+---
 name: oop
 class: center, middle
 
-# 3. Objects & OOP
+# Objects & OOP
 
 ---
 
@@ -637,7 +772,6 @@ Detonation.prototype.oneStep = function () {
   }
 };
 ```
-
 ---
 # this I.
 
@@ -671,10 +805,95 @@ ThisTest.prototype.test = function(arg1, arg2) {
 ![bind2](img/bind2.png "bind2")
 
 ---
+
+# OOP principles and JavaScript
+
+- Encapsulation
+  - In the "bundling data and operations" meaning with classes
+  - Hiding possible with closures
+- Abstraction
+  - Possible using base classes
+- Inheritance
+  - Using the prototype chain
+- Polymorphism
+  - Flexible
+
+# +
+
+- Composition, mixins
+  - *.extend(), Object.assign, etc.
+  
+"Favor 'object composition' over 'class inheritance'." (GoF)
+
+---
+# Factory functions I.
+
+Reasons:
+
+- `new` creates tight coupling
+- `this` doesn not work correctly in JavaScript
+- Hard to have private data and object composition with classes
+
+---
+
+# Factory functions II.
+
+```
+var car = function (name, maxSpeed, tank, fuelConsumption) {
+  var power = 0;
+  var self = {
+    name: name,
+    maxSpeed: maxSpeed,
+    tank: tank,
+    fuelConsumption: fuelConsumption,
+    getMaxRange: function () {
+      return self.tank / self.fuelConsumption * 100;
+    },
+    get horsePower() {
+      return power / ONE_HP_IN_KW;
+    },
+    set horsePower(hp) {
+      power = hp * ONE_HP_IN_KW;
+    }
+  };
+  return self;
+};
+```
+
+---
+
+# Compositional Inheritance & Mixins
+
+```
+var registered = function (self, registrationNumber) {
+  self.registrationNumber = registrationNumber;
+  return {
+    checkValidity: function () {
+      console.log(self.registrationNumber +
+                                  " is valid. Name: " + self.name);
+    }
+  };
+};
+```
+
+```
+var ambulance = function ambulance(registrationNumber) {
+  var self = car("Ambulance car", 120, 50, 16);
+  Object.assign(self,
+    registered(self, registrationNumber), {
+      nino: function () {
+        console.log("Nino: " + self.name);
+      }
+    });
+  return self;
+};
+```
+
+---
 name: operators
 class: center, middle
 
-# 4. A few operators
+# A few operators
 
 ---
 # typeof operator
@@ -701,118 +920,10 @@ Usable only for "primary" data types and for `undefined` checking
 ![in](img/in.png "in")
 
 ---
-name: modules
-class: center, middle
-
-# 5. Modules in ECMAScript 5
-
----
-# The 'jQuery' Module pattern
-
-```
-var file = (function file() {
-  //private
-  function normalize(url) {
-  ...
-  }
-
-  function loadFile(url, cb) {
-    var normalizedUrl = normalize(url);
-    ...
-  }
-
-  //exports
-  return { 
-    loadFile: loadFile
-  };
-})();
-```
-
-.note[State and private functions are hiddenly stored in a closure.]
-
----
-# Module pattern variant: locally scoped object
-
-```
-var file = (function file() {
-  var exports = {};
-  
-  //private
-  function normalize(url) {
-  ...
-  }
-
-  exports.loadFile = function loadFile (url, cb) {
-    var normalizedUrl = normalize(url);
-    ...
-  }
-
-  return exports;
-})();
-```
-
----
-# AMD - Asynchronous Module Definition
-
-```
-define("file", 
-  ["storage", "stream"], 
-  function (storage, stream) {
-    function normalize(url) {
-      ...
-    }
-
-    var file = {
-      loadFile: function() {
-        var normalizedUrl = normalize(url);
-        ...
-      }
-    }
-
-    return file;
-});
-```
-
-```
-require(["file", "stream"], function (file, stream) {
-  file.loadFile(...);
-});
-```
-
-.attribution[https://addyosmani.com/writing-modular-js/]
-
----
-# CommonJS
-
-```
-var storage = require("packages/storage");
-var stream = require("packages/stream");
-
-function normalize(url) {
-  ...
-}
-
-function loadFile(){
-  var normalizedUrl = normalize(url);
-  ...
-}
-
-exports.loadFile = loadFile;
-```
-
-```
-var file = require("./file");
-```
-
-.note[Cleaner approach, but needs some (server-side) transformation to be usable in the browser.]
-
----
 name: errorhandling
 class: center, middle
 
-
-
-# 6. Error Handling
+# Error Handling
 
 ---
 # try, catch, throw, finally basics
@@ -932,7 +1043,7 @@ function getTotalFileLengths(path, callback) {
 name: promises
 class: center, middle
 
-# 7. Promises
+# Promises
 
 ---
 
@@ -1184,10 +1295,16 @@ doSomething
 .attribution[http://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html]
 
 ---
+name: promiselab
+class: center, middle
+
+# Lab: Promises
+
+---
 name: strictmode
 class: center, middle
 
-# 8. Strict mode
+# Strict mode
 
 ---
 # "use strict"
@@ -1209,10 +1326,10 @@ function notStrict() {
 ```
 "use strict";
 
-// strict mode in entire script
+// entire script in strict mode
 ```
 
-.note[Prefer the function scope, or you may have problems after script concatenation.]
+.note[Prefer the function scope, or you may have problems with non-strict dependencies after script concatenation.]
 
 ---
 # Strict mode
@@ -1237,7 +1354,7 @@ function notStrict() {
 name: badparts
 class: center, middle
 
-# 10. The Bad Parts
+# The Bad Parts
 
 ---
 
@@ -1340,6 +1457,3 @@ An old example:
 ```
 
 .note[WARNING: Antipattern, never mix JavaScript and HTML]
-
----
-

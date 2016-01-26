@@ -25,6 +25,13 @@ h3 {
   margin: 2px;
 }
 
+.smallab {
+  display: block;
+  text-align: right;
+  padding: 2px;
+  margin: 2px;  
+}
+
 .attribution {
   display: block;
   text-align: right;
@@ -46,4 +53,9 @@ h3 {
 
 .hiddenlinks a {
   text-decoration: none;
+}
+
+.imagetoright img {
+  position: absolute;
+  right: 10%;
 }

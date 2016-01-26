@@ -1,6 +1,7 @@
 "use strict";
 
 (function player() {
+  const titleBase = document.title;
   const allowedUrls = new Set(["index.md", "language.md", "browser.md", "process.md", "es6.md"]);
   
   function slidesUrl() {
@@ -23,6 +24,6 @@ fetch is not working on file://`
       source: body,
       highlightLanguage: "javascript"
     });
-    document.title = `${url} - JavaScript training`;
+    document.title = `${url} - ` + titleBase;
   });
 })();

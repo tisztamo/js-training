@@ -4,22 +4,13 @@ class: center, middle
 
 ---
 
-# Agenda
+# Developer Tools Demo
 
-1. 
-
----
-class: center, middle
-
-# 1. 
-
----
-
-# 
-
-```
-```
-
-![ackermann output](img/ackermann.png "ackermann output")
----
+- Debug
+  - JavaScript
+  - CSS
+  - Networking
+- Profile
+  - JavaScript CPU & Memory usage
+  - Paint performance
 

@@ -5,16 +5,18 @@ class: center, middle
 2 days training
 
 ---
-# About
 
-### Trainer:
+# About Me
 
 Krisztián Schäffer
 
  - https://github.com/tisztamo/
  - http://www.cloudbreaker.co/index_en.html#trainingz
 
-### Goals:
+---
+class: imagetoright
+
+# Goals:
 
 - No more BASIC programming in JavaScript
   - Solid understanding of the language constructs.
@@ -22,6 +24,8 @@ Krisztián Schäffer
   - Overcome limitations
 
 - Basic understanding of the ecosystem 
+
+![c64](img/c64.gif)
 
 ---
 class: hiddenlinks
