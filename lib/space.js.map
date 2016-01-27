@@ -1,0 +1,1 @@
+{"version":3,"sources":["../src/space.js"],"names":[],"mappings":"AAAA;;;;;kBAIwB;;;;AAFjB,IAAM,gBAAI,SAAJ;;IACA;;;;AACE,SAAS,QAAT,GAAoB,EAApB;;AAEf,SAAS,SAAT,GAAqB,EAArB","file":"space.js","sourcesContent":["\"use strict\";\n\nexport const G = 6.674e-11;\nexport class SpaceObject {}\nexport default function simulate() {}\n\nfunction privateFn() {}"]}
