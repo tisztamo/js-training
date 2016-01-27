@@ -14,6 +14,13 @@ Krisztián Schäffer
  - http://www.cloudbreaker.co/index_en.html#trainingz
 
 ---
+class: center, middle
+
+# About you
+
+Assumption: you have some HTML/CSS/JavaScript knowledge
+
+---
 class: imagetoright
 
 # Goals:

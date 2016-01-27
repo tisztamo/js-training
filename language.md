@@ -375,6 +375,8 @@ var logger = ["debug", "log", "warn", "error"]...
 ![logger](img/logger.png "logger")
 ![loggeroutput](img/loggeroutput.png "loggeroutput")
 
+.note[targetElement: document.querySelector(".remark-help-content")]
+
 ---
 
 # Typed arrays I.: architecture
@@ -811,19 +813,19 @@ ThisTest.prototype.test = function(arg1, arg2) {
 # OOP principles and JavaScript
 
 - Encapsulation
-  - In the "bundling data and operations" meaning with classes
-  - Hiding possible with closures
+  - The "bundling data and operations" meaning: yes with classes
+  - Hiding data: Possible with closures
 - Abstraction
   - Possible using base classes
 - Inheritance
   - Using the prototype chain
 - Polymorphism
-  - Flexible
+  - Yes, very (too?) flexible
 
 # +
 
 - Composition, mixins
-  - *.extend(), Object.assign, etc.
+  - *.extend(), Object.assign(), etc.
   
 "Favor 'object composition' over 'class inheritance'." (GoF)
 
