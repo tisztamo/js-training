@@ -44,3 +44,17 @@ name: agenda
 2. [Process](?process.md)
 3. [Browser](?browser.md)
 4. [ECMAScript 6](?es6.md)
+
+---
+
+# Access the material
+
+### Online
+
+http://tisztamo.github.io/js-training
+
+### Download
+
+https://github.com/tisztamo/js-training/archive/master.zip
+
+
