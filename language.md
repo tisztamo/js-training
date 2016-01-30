@@ -256,15 +256,6 @@ var roots = numbers.map(Math.sqrt);
 
 ![roots output](img/map1.png "roots output")
 
-.smallab[Create an array of loggers for the levels "debug", "log", "warn" and "error", without writing more than three parentheses! Example: ]
-
-```
-log[0]("Now we understand closures.");
-
-log[3]("Critical error");
-```
-
-
 ---
 # Array.map() II.
 
@@ -291,6 +282,19 @@ var typedVideos = videos.map(function (video) {
 
 .right[[workshop at reactivex.io](http://reactivex.io/learnrx/)]
 ---
+
+# Array.map() III.
+
+.smallab[Create an array of loggers for the levels "debug", "log", "warn" and "error", without writing more than three parentheses! Example: ]
+
+```
+log[0]("Now we understand closures.");
+
+log[3]("Critical error");
+```
+
+---
+
 
 # Array.filter()
 
