@@ -173,7 +173,8 @@ function createLogger(template, targetElement) {
 }
 ```
 
-.smallab[Create a warn logger which logs to .remark-help-content with orange color!]
+.smallab[Create a warn logger which logs with orange color!]
+.note[targetElement: document.querySelector(".remark-help-content")]
 
 ---
 
@@ -194,7 +195,7 @@ function setupHelp() {
   }
 }
 ```
-The variable *i* is shared between the event handlers. [jsfiddle](https://jsfiddle.net/v7gjv/light/)
+The variable *item* is shared between the event handlers. [jsfiddle](https://jsfiddle.net/v7gjv/light/)
 
 To fix, separate the binding into a function which creates a new closure. [fixed](https://jsfiddle.net/v7gjv/1/light/)
 
@@ -285,12 +286,14 @@ var typedVideos = videos.map(function (video) {
 
 # Array.map() III.
 
-.smallab[Create an array of loggers for the levels "debug", "log", "warn" and "error", without writing more than three parentheses! Example: ]
+.smallab[Create an array of loggers for the levels "debug", "log", "warn" and "error", without using a cycle! Example: ]
 
 ```
 log[0]("Now we understand closures.");
+DEBUG: Now we understand closures.
 
-log[3]("Critical error");
+log[3]("Critical error.");
+ERROR: Critical error.
 ```
 
 ---

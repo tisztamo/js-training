@@ -8,7 +8,7 @@ class: center, middle
 
 ![es6-support](img/es6-support.png "es6 support")
 
-As of 18/01/2016. Source: http://kangax.github.io/compat-table/es6/
+As of 30/03/2017 Source: http://kangax.github.io/compat-table/es6/
 
 ---
 # Transpilers
