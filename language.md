@@ -1213,21 +1213,21 @@ What happens here?
 ```
 doSomething().then(function () {
   return doSomethingElse();
-});
+}).then(finalHandler);
 ```
 
 ```
 doSomething().then(function () {
   doSomethingElse();
-});
+}).then(finalHandler);
 ```
 
 ```
-doSomething().then(doSomethingElse());
+doSomething().then(doSomethingElse()).then(finalHandler);
 ```
 
 ```
-doSomething().then(doSomethingElse);
+doSomething().then(doSomethingElse).then(finalHandler);
 ```
 
 .attribution[http://pouchdb.com/2015/05/18/we-have-a-problem-with-promises.html]
