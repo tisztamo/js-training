@@ -2,7 +2,7 @@ class: center, middle
 
 # Advanced Javascript
 
-2 days training
+3 days training
 
 ---
 
@@ -11,7 +11,6 @@ class: center, middle
 Krisztián Schäffer
 
  - https://github.com/tisztamo/
- - http://www.cloudbreaker.co/index_en.html#trainingz
 
 ---
 class: center, middle

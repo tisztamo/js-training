@@ -70,5 +70,8 @@ QUnit.test("promiselab.loadFileList(list, true) should succeed and provide empty
   promiselab.loadFileList(files, true).then(function (result) {
     assert.ok(result.join("") === "13");
     done();
+  }).catch(function() {
+    assert.ok(false);
+    done();
   });
 });

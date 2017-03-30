@@ -100,7 +100,7 @@ Alternative: [Bower](http://bower.io/). No copy needed, but yet another tool and
 
 ---
 
-# Module loading & packaging with webpack
+# Module loading & packaging with webpack I
 
 ```bash
 npm install webpack webpack-dev-server --save-dev
@@ -125,6 +125,23 @@ package.json:
   }
 }
 ```
+
+---
+
+# Module loading & packaging with webpack II
+
+webpack.config.js:
+
+```
+module.exports = {
+  entry: "./example.js",
+  output: {
+    path: __dirname,
+    filename: "bundle.js"
+  }
+};
+```
+
 
 ---
 

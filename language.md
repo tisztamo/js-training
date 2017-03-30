@@ -8,23 +8,23 @@ class: center, middle
 
 ```
 /*
-	Usage: set the javaScript variables endDate,
+    Usage: set the javaScript variables endDate,
   countDownId, countDownTimeFormat,
   function timeIsUpFunction() and include this js
 */
 
 function displayTimeLeft() {
-	now = new Date();    
+    now = new Date();    
     var mSecs = endDate - now;
-	if (mSecs >= 0) {    
+    if (mSecs >= 0) {    
 .
 .
 .
     setTimeout("displayTimeLeft()", 990);
-	} else {        
-		timeIsUpFunction();
-		return true;
-	}
+    } else {        
+        timeIsUpFunction();
+        return true;
+    }
 }
 
 displayTimeLeft();
@@ -173,7 +173,8 @@ function createLogger(template, targetElement) {
 }
 ```
 
-.smallab[Create a warn logger which logs to .remark-help-content with orange color!]
+.smallab[Create a warn logger which logs with orange color!]
+.note[targetElement: document.querySelector(".remark-help-content")]
 
 ---
 
@@ -194,9 +195,9 @@ function setupHelp() {
   }
 }
 ```
-The variable *i* is shared between the event handlers. [jsfiddle](https://jsfiddle.net/v7gjv/light/)
+The variable *item* is shared between the event handlers. [jsfiddle](https://jsfiddle.net/v7gjv/light/)
 
-To fix, separate the binding into a function to have a new closure. [fixed](https://jsfiddle.net/v7gjv/1/light/)
+To fix, separate the binding into a function which creates a new closure. [fixed](https://jsfiddle.net/v7gjv/1/light/)
 
 .attribution[Sample from [MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures)]
 
@@ -256,15 +257,6 @@ var roots = numbers.map(Math.sqrt);
 
 ![roots output](img/map1.png "roots output")
 
-.smallab[Create an array of loggers for the levels "debug", "log", "warn" and "error", without writing more than 3 parentheses! Example: ]
-
-```
-log[0]("Now we understand closures.");
-
-log[3]("Critical error");
-```
-
-
 ---
 # Array.map() II.
 
@@ -291,6 +283,21 @@ var typedVideos = videos.map(function (video) {
 
 .right[[workshop at reactivex.io](http://reactivex.io/learnrx/)]
 ---
+
+# Array.map() III.
+
+.smallab[Create an array of loggers for the levels "debug", "log", "warn" and "error", without using a cycle! Example: ]
+
+```
+log[0]("Now we understand closures.");
+DEBUG: Now we understand closures.
+
+log[3]("Critical error.");
+ERROR: Critical error.
+```
+
+---
+
 
 # Array.filter()
 
@@ -351,8 +358,8 @@ Parameters
 
 
 ```
-	var ratings = [2,3,1,4,5];
-	return ratings.reduce(Math.max);
+    var ratings = [2,3,1,4,5];
+    return ratings.reduce(Math.max);
 ```
 
 ```
@@ -453,11 +460,11 @@ map.size; // 1
 
 # WeakSet, WeakMap
 
-- Store object references only.
+- Stores object references only.
 - Allows garbage collection.
-- Entry will be deleted automatically if no strong reference remains to key.
+- Entry will be deleted automatically if no strong reference remains to the key.
 - No `forEach()`, `size`, `clear()`.
-- Associating data with DOM objects, caching, storing private data, etc.
+- For associating data with DOM objects, caching, storing private data, etc.
 
 ES6!
 
@@ -670,7 +677,7 @@ In library code (still) recommended to use `hasOwnProperty` inside `for..in` loo
 ![delete](img/delete.png "delete")
 
 ---
-# Contructor function, new operator
+# Constructor function, new operator
 
 ```
 function Car(name, maxSpeed, tank, fuelConsumption) {
@@ -983,7 +990,7 @@ More on this: http://stackoverflow.com/questions/783818/how-do-i-create-a-custom
 ---
 # Error handling in asynchronous code
 
-Async code runs on its own stack, it is not possible to catch exceptions from the initiator code
+Async code runs on its own stack; it is not possible to catch exceptions from the initiator code
 
 ```
 try {
@@ -1007,7 +1014,7 @@ try {
       error: function (xhr, status, error) {...}
     });
 ```
-  - Using error object as first parameter of the callback, like Node.js
+  - Using error object as the first parameter of the callback, like Node.js
 
 ```
     db.fetch(query, function(err, result) {
@@ -1116,7 +1123,7 @@ getUserByName('nolan').then(function (user) {
 ---
 # Parallel join: Promise.all()
 
-Goal: Wait for multiple async operations, continue only when all of them completed.
+Goal: Wait for multiple async operations, only continue when all of them completed.
 
 ```
 db.allDocs({include_docs: true}).then(function (result) {
@@ -1145,7 +1152,7 @@ db.allDocs({include_docs: true}).then(function (result) {
 ---
 # Promise.reject(), Promise.resolve()
 
-An unrealistic example of error propegation and handling
+An unrealistic example of error propagation and handling
 
 ```
 fetch('./api/some.json').then(function (response) {
@@ -1195,7 +1202,7 @@ currentUserName().then(loadSettings).then(...).catch(...);
 
 - Unhandled rejections are silently ignored. You will see _nothing_. => Always call `.catch()` at the end of the chain.
 - Uncancellable.
-- Will "fire" only once - not for events.
+- Will "fire" only once - not good for events.
 - Not possible to determine its state.
 
 ---
@@ -1444,7 +1451,7 @@ Just do not use it.
 
 ---
 
-# eval
+# eval, Function(string)
 
 You never really need it. Turn it off using content security policy!
 
@@ -1452,7 +1459,7 @@ You never really need it. Turn it off using content security policy!
 
 # void operator
 
-Evaluates its operand but returns `undefined`. You don't really need it.
+Evaluates its operand but returns `undefined`. You don't need it.
 
 ![void](img/void.png "void")
 

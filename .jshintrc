@@ -8,6 +8,7 @@
   "predef": ["fetch",
              "remark",
              "require",
-             "QUnit"
+             "QUnit",
+             "exports"
              ]
 }
