@@ -4,7 +4,7 @@ class: center, middle
 
 ---
 
-# Why, My God, Why?
+# An example
 
 ```
 /*
