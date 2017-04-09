@@ -1,2 +1,4 @@
-node_modules/
+node_modules/*
+!node_modules/babel-polyfill/
+!node_modules/whatwg-fetch/
 labs/node_modules/
