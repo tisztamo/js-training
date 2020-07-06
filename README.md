@@ -2,10 +2,15 @@
 
 2 days advanced JavaScript course material
 
+https://tisztamo.github.io/js-training
+
+or
+
+
 ```bash
 $ npm update
 $ npm run build
 $ npm run serve
 ```
 
-Open http://localhost:8000/player.html
+and open http://localhost:8000/player.html
